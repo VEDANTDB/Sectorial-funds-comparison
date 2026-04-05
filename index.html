@@ -307,8 +307,104 @@ tr:hover td{background:rgba(255,255,255,.02)}
 .disc{font-size:11px;color:var(--ink3);line-height:1.7;border-top:1px solid var(--border);padding-top:.85rem;margin-top:.2rem}
 .disc strong{color:var(--ink2)}
 
+/* ── HEATMAP ── */
+.hm-controls{
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+  margin-bottom:.9rem;padding:.75rem 1rem;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+}
+.hm-ctrl-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);white-space:nowrap}
+.hm-legend{display:flex;align-items:center;gap:7px;margin-left:auto}
+.hm-legend-gradient{
+  width:90px;height:8px;border-radius:4px;
+  background:linear-gradient(to right,#1a3a6e,#2255cc,#5b8fff,#f6c843,#ff8c42,#ff5a5a);
+}
+.hm-card{overflow:visible!important;position:relative}
+.hm-outer{display:flex;overflow:hidden;padding:1rem 1.1rem 1.2rem}
+.hm-ylabels{
+  display:flex;flex-direction:column;
+  padding-top:36px; /* offset for x-labels */
+  gap:0;flex-shrink:0;
+  margin-right:10px;
+}
+.hm-ylabel{
+  display:flex;align-items:center;
+  height:44px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink2);
+  white-space:nowrap;
+  padding-right:4px;
+}
+.hm-scroll{flex:1;overflow-x:auto;overflow-y:hidden}
+.hm-scroll::-webkit-scrollbar{height:4px}
+.hm-scroll::-webkit-scrollbar-track{background:transparent}
+.hm-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+#hm-grid-wrap{display:inline-flex;flex-direction:column;min-width:100%}
+.hm-xlabels{display:flex;height:36px;gap:4px}
+.hm-xlabel{
+  flex:0 0 88px;display:flex;align-items:flex-end;justify-content:center;
+  padding-bottom:6px;
+  font-size:9.5px;color:var(--ink2);text-align:center;
+  line-height:1.3;cursor:default;
+  font-family:'IBM Plex Sans',sans-serif;
+  white-space:nowrap;
+}
+.hm-cells{display:flex;flex-direction:column;gap:4px}
+.hm-row{display:flex;gap:4px}
+.hm-cell{
+  flex:0 0 88px;height:44px;border-radius:6px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;
+  transition:transform .15s,box-shadow .15s,filter .15s;
+  border:1px solid transparent;
+}
+.hm-cell:hover{transform:scale(1.08);z-index:10;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.hm-cell.dimmed{filter:brightness(.35) saturate(.3)}
+.hm-cell.highlighted{border-color:rgba(255,255,255,.35)!important;transform:scale(1.06);z-index:9}
+.hm-cell-val{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;line-height:1}
+.hm-cell-sub{font-size:8.5px;opacity:.75;margin-top:2px;font-family:'IBM Plex Sans',monospace}
+.hm-tooltip{
+  position:fixed;z-index:9999;
+  background:var(--surface2);border:1px solid var(--border-hi);border-radius:9px;
+  padding:.6rem .85rem;font-size:12px;line-height:1.6;
+  pointer-events:none;opacity:0;transition:opacity .15s;
+  max-width:230px;box-shadow:0 8px 32px rgba(0,0,0,.6);
+}
+.hm-tooltip.visible{opacity:1}
+.hm-tt-sector{font-weight:600;font-size:12.5px;margin-bottom:3px}
+.hm-tt-factor{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3);margin-bottom:5px}
+.hm-tt-score{font-family:'Playfair Display',serif;font-size:20px}
+.hm-tt-bar{height:3px;border-radius:2px;margin-top:5px}
+.hm-tt-desc{font-size:10.5px;color:var(--ink3);margin-top:5px;line-height:1.5}
+
+/* ── HISTORY TOOLBAR ── */
+.hist-toolbar{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:.75rem 1rem;margin-bottom:1rem;
+}
+.hist-filter-group{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.hist-filter-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);white-space:nowrap}
+.hist-divider{width:1px;height:28px;background:var(--border);flex-shrink:0}
+.hist-sector-chips{display:flex;flex-wrap:wrap;gap:4px}
+.h-sector-chip{
+  padding:4px 10px;border-radius:20px;border:1px solid var(--border);
+  font-size:10.5px;font-family:'IBM Plex Mono',monospace;
+  background:var(--bg2);color:var(--ink3);cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:5px;
+  white-space:nowrap;
+}
+.h-sector-chip .chip-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.h-sector-chip.active{border-color:currentColor;background:rgba(255,255,255,.06);color:var(--ink)}
+.h-sector-chip.active .chip-dot{box-shadow:0 0 5px currentColor}
+.hist-active-row{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  min-height:20px;margin-bottom:.85rem;
+  font-size:11px;color:var(--ink3);
+}
+.hist-active-row .chip{background:rgba(246,200,67,.12);color:var(--gold);border-radius:20px}
+
 /* ── RESPONSIVE ── */
-@media(max-width:1000px){.hero-grid{grid-template-columns:1fr 1fr}.hero-main{grid-column:1/-1;border-right:none;border-bottom:1px solid var(--border)}.grid2{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:1000px){.hero-grid{grid-template-columns:1fr 1fr}.hero-main{grid-column:1/-1;border-right:none;border-bottom:1px solid var(--border)}.grid2{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 1fr}.hm-controls{flex-direction:column;align-items:flex-start}.hm-legend{margin-left:0}}
 @media(max-width:640px){nav{padding:0 1rem}.wrap{padding:1rem}.grid3{grid-template-columns:1fr}}
 
 ::-webkit-scrollbar{width:5px;height:5px}
@@ -504,53 +600,157 @@ tr:hover td{background:rgba(255,255,255,.02)}
   <p style="font-size:12px;color:var(--ink3);margin-bottom:1rem;line-height:1.7">Based on the quantitative model's feature-engineering framework, the table below maps each sector to its primary macroeconomic transmission channels. Sensitivity scores (0–10) are indicative composites derived from regression and VAR model findings.</p>
   <div class="macro-grid" id="macro-grid"></div>
 
-  <div class="sec-head" style="margin-top:1rem"><div class="sec-title">Macro Sensitivity Heatmap</div><div class="sec-line"></div></div>
-  <div class="card" style="margin-bottom:1.2rem">
-    <div class="card-body"><div class="chart-wrap" style="height:340px"><canvas id="heat-chart"></canvas></div></div>
+  <div class="sec-head" style="margin-top:1.4rem"><div class="sec-title">Macro Sensitivity Heatmap</div><div class="sec-line"></div></div>
+
+  <!-- Heatmap controls -->
+  <div class="hm-controls">
+    <div style="display:flex;align-items:center;gap:6px">
+      <span class="hm-ctrl-label">Sort by</span>
+      <div class="pills">
+        <button class="pill active" id="hm-sort-sector" onclick="setHmSort('sector',this)">Sector</button>
+        <button class="pill" id="hm-sort-score" onclick="setHmSort('score',this)">Score ↓</button>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <span class="hm-ctrl-label">Highlight</span>
+      <div class="pills" id="hm-factor-pills">
+        <button class="pill active" onclick="setHmFactor('',this)">All</button>
+        <button class="pill" onclick="setHmFactor('RBI Rate',this)">RBI Rate</button>
+        <button class="pill" onclick="setHmFactor('USD/INR',this)">USD/INR</button>
+        <button class="pill" onclick="setHmFactor('Crude Oil',this)">Crude</button>
+        <button class="pill" onclick="setHmFactor('Monsoon',this)">Monsoon</button>
+        <button class="pill" onclick="setHmFactor('Govt. Policy',this)">Govt. Policy</button>
+        <button class="pill" onclick="setHmFactor('Global FPI',this)">Global FPI</button>
+      </div>
+    </div>
+    <!-- Legend -->
+    <div class="hm-legend">
+      <span class="hm-ctrl-label">Sensitivity</span>
+      <div class="hm-legend-bar"></div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3)">Low</span>
+      <div class="hm-legend-gradient"></div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3)">High</span>
+    </div>
+  </div>
+
+  <div class="card hm-card" style="margin-bottom:1.2rem">
+    <div class="card-body" style="padding:0">
+      <div class="hm-outer">
+        <!-- Y-axis factor labels -->
+        <div class="hm-ylabels" id="hm-ylabels"></div>
+        <!-- Main grid -->
+        <div class="hm-scroll">
+          <div id="hm-grid-wrap">
+            <!-- X-axis sector labels -->
+            <div class="hm-xlabels" id="hm-xlabels"></div>
+            <!-- Cells -->
+            <div class="hm-cells" id="hm-cells"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Tooltip -->
+      <div class="hm-tooltip" id="hm-tooltip"></div>
+    </div>
   </div>
 </div>
 
 <!-- ═══════════════ HISTORY TAB ═══════════════ -->
 <div id="tab-history" class="panel">
-  <div class="sec-head"><div class="sec-title">Historical NAV Trend Comparison (Simulated, Indexed to 100)</div><div class="sec-line"></div></div>
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;align-items:center">
-    <div class="fg"><label>View Period</label>
-      <select id="h-period" onchange="renderHistory()">
-        <option value="1y">1 Year</option>
-        <option value="3y" selected>3 Years</option>
-        <option value="5y">5 Years</option>
-      </select>
+  <div class="sec-head"><div class="sec-title">Historical NAV Trend Comparison <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--ink3)">(Simulated · Indexed to 100)</span></div><div class="sec-line"></div></div>
+
+  <!-- ── Filter toolbar ── -->
+  <div class="hist-toolbar">
+
+    <!-- Period pills -->
+    <div class="hist-filter-group">
+      <span class="hist-filter-label">Period</span>
+      <div class="pills" id="h-period-pills">
+        <button class="pill" data-hperiod="1y" onclick="setHPeriod('1y',this)">1Y</button>
+        <button class="pill active" data-hperiod="3y" onclick="setHPeriod('3y',this)">3Y</button>
+        <button class="pill" data-hperiod="5y" onclick="setHPeriod('5y',this)">5Y</button>
+      </div>
     </div>
-    <div class="fg"><label>Sector Filter</label>
-      <select id="h-sector" onchange="renderHistory()">
-        <option value="">All Sectors</option>
-        <option>Banking & Finance</option>
-        <option>Information Technology</option>
-        <option>Pharmaceuticals</option>
-        <option>Infrastructure</option>
-        <option>FMCG & Consumption</option>
-        <option>Automobiles</option>
-        <option>Energy & Power</option>
-      </select>
+
+    <div class="hist-divider"></div>
+
+    <!-- Sector toggle chips -->
+    <div class="hist-filter-group" style="flex:1;min-width:0">
+      <span class="hist-filter-label">Sectors</span>
+      <div class="hist-sector-chips" id="h-sector-chips">
+        <!-- populated by JS -->
+      </div>
     </div>
+
+    <div class="hist-divider"></div>
+
+    <!-- Chart type -->
+    <div class="hist-filter-group">
+      <span class="hist-filter-label">View</span>
+      <div class="pills" id="h-chart-type-pills">
+        <button class="pill active" onclick="setHChartType('indexed',this)" title="Indexed to 100">Indexed</button>
+        <button class="pill" onclick="setHChartType('return',this)" title="% Return from start">% Return</button>
+        <button class="pill" onclick="setHChartType('drawdown',this)" title="Max Drawdown">Drawdown</button>
+      </div>
+    </div>
+
+    <div class="hist-divider"></div>
+
+    <!-- Quick actions -->
+    <div class="hist-filter-group">
+      <span class="hist-filter-label">Quick</span>
+      <div style="display:flex;gap:4px">
+        <button class="btn" style="padding:4px 10px;font-size:10px" onclick="hSelectAll()">All</button>
+        <button class="btn" style="padding:4px 10px;font-size:10px" onclick="hSelectNone()">None</button>
+        <button class="btn" style="padding:4px 10px;font-size:10px" onclick="hSelectTop3()">Top 3</button>
+      </div>
+    </div>
+
   </div>
+  <!-- Active filter summary -->
+  <div class="hist-active-row" id="h-active-row"></div>
+
+  <!-- Main chart -->
   <div class="card" style="margin-bottom:1.2rem">
-    <div class="card-head"><div class="card-title">Indexed NAV Performance (Base = 100)</div>
+    <div class="card-head">
+      <div class="card-title" id="h-chart-title">Indexed NAV Performance (Base = 100)</div>
       <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink3)">SECTOR NIFTY INDICES PROXY</div>
     </div>
-    <div class="card-body"><div class="chart-wrap" style="height:340px"><canvas id="line-chart"></canvas></div>
+    <div class="card-body">
+      <div class="chart-wrap" style="height:340px"><canvas id="line-chart"></canvas></div>
       <div class="legend" id="line-leg"></div>
     </div>
   </div>
 
   <!-- Rolling metrics -->
   <div class="sec-head"><div class="sec-title">Rolling 12M Risk-Return Metrics</div><div class="sec-line"></div></div>
-  <div class="grid2" style="margin-bottom:1.2rem">
-    <div class="card">
+
+  <!-- Rolling filter bar -->
+  <div class="hist-toolbar" style="margin-bottom:1rem">
+    <div class="hist-filter-group">
+      <span class="hist-filter-label">Metric</span>
+      <div class="pills">
+        <button class="pill active" onclick="setRollingMetric('sharpe',this)">Sharpe</button>
+        <button class="pill" onclick="setRollingMetric('stddev',this)">Std Dev</button>
+        <button class="pill" onclick="setRollingMetric('both',this)">Both</button>
+      </div>
+    </div>
+    <div class="hist-divider"></div>
+    <div class="hist-filter-group">
+      <span class="hist-filter-label">Window</span>
+      <div class="pills">
+        <button class="pill" onclick="setRollingWindow(6,this)">6M</button>
+        <button class="pill active" onclick="setRollingWindow(12,this)">12M</button>
+        <button class="pill" onclick="setRollingWindow(24,this)">24M</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-bottom:1.2rem" id="rolling-grid">
+    <div class="card" id="rolling-sharpe-card">
       <div class="card-head"><div class="card-title">Rolling Sharpe Ratio (12M)</div></div>
       <div class="card-body"><div class="chart-wrap" style="height:220px"><canvas id="rolling-sharpe"></canvas></div></div>
     </div>
-    <div class="card">
+    <div class="card" id="rolling-std-card">
       <div class="card-head"><div class="card-title">Rolling Std Dev — Annualised</div></div>
       <div class="card-body"><div class="chart-wrap" style="height:220px"><canvas id="rolling-std"></canvas></div></div>
     </div>
@@ -697,7 +897,7 @@ const BADGE_STYLE = {
 // ───────────── STATE ──────────────────────────────────────
 let sortCol="r1y", sortDir=-1, barPeriod="r1y";
 let filtered=[], barChart=null, sctChart=null, pieChart=null, sharpeChart=null, expChart=null;
-let lineChart=null, rollingSharpe=null, rollingStd=null, heatChart=null;
+let lineChart=null, rollingSharpe=null, rollingStd=null;
 let cmpSelected=new Set();
 
 // ───────────── POPULATE SELECTS ──────────────────────────
@@ -916,7 +1116,7 @@ function switchTab(id,btn){
   document.getElementById("tab-"+id).classList.add("active");
   btn.classList.add("active");
   if(id==="macro")renderMacro();
-  if(id==="history")renderHistory();
+  if(id==="history"){initHistorySectors();renderHistory();}
   if(id==="compare")renderCompare();
 }
 
@@ -952,7 +1152,7 @@ document.querySelectorAll("th[data-col]").forEach(th=>{
 });
 
 // ═══════════════════════════════════════════════════════════
-// MACRO TAB
+// MACRO TAB — improved native HTML heatmap
 // ═══════════════════════════════════════════════════════════
 const MACRO_DATA=[
   {sector:"Banking & Finance",color:"#5B8FFF",factors:["RBI Repo Rate","CPI Inflation","NPA Trends","Credit Growth","USD/INR"],score:8.2,desc:"Hypersensitive to RBI monetary policy. NIMs expand on rate cuts; NPAs drive provisioning cycles."},
@@ -969,72 +1169,233 @@ const MACRO_DATA=[
   {sector:"Rural & Consumption",color:"#DE9E7E",factors:["Monsoon","Rural Wages","MGNREGA","Kisan Nidhi","CPI"],score:7.3,desc:"Monsoon-driven rural income cycle is the core driver. Govt. transfer programs provide income floor."},
 ];
 
+// Sensitivity matrix [sector index][factor index]
+// Factors: RBI Rate, USD/INR, Crude Oil, Monsoon, Govt. Policy, Global FPI, IIP, CPI
+const HM_FACTORS=["RBI Rate","USD / INR","Crude Oil","Monsoon","Govt. Policy","Global FPI","IIP","CPI"];
+const HM_RAW=[
+  [9,3,2,1,5,7,4,8],
+  [3,9,2,1,2,9,5,3],
+  [4,8,3,2,4,6,3,4],
+  [5,3,5,3,9,4,8,5],
+  [2,4,6,8,5,3,4,9],
+  [7,3,8,5,4,3,5,5],
+  [3,2,9,1,9,6,5,5],
+  [9,2,5,2,7,4,3,5],
+  [3,3,7,1,5,6,9,4],
+  [4,3,3,3,7,8,4,4],
+  [6,3,5,3,9,4,9,5],
+  [2,3,4,9,6,3,5,8],
+];
+const HM_DESCS=[
+  ["Dominant driver. Repo cuts expand NIMs, reduce NPA provisioning costs.","Minimal impact on domestic banking earnings.","Moderate — crude affects inflation feeding into RBI policy.","Indirect: affects rural credit demand and agri-NPAs.","PSB recapitalisation, SARFAESI amendments directly impact.","FII flows drive bank stock P/B multiples.","IIP credit offtake proxy for corporate loan growth.","CPI feeds directly into RBI rate decisions."],
+  ["Low — USD-billing firms less sensitive to domestic rates.","Strongest driver. 1% INR move changes IT margins ~40bps.","Negligible direct impact.","No meaningful impact.","Visa policy, digital regulations affect margins.","US recession risk changes FII exposure to IT heavily.","IIP as proxy for global industrial IT spend.","CPI minimal impact; IT is a service sector."],
+  ["Low — pharma borrowing is minimal.","Strong: 70%+ revenues are USD-denominated exports.","Marginal impact via logistics and packaging costs.","No direct link.","USFDA, pricing controls, PLI for pharma are key.","EPU-driven FPI rotation affects pharma valuations.","IIP as proxy for chemical and API production.","Domestic formulation pricing affected by raw material CPI."],
+  ["Moderate: capex financing costs tied to repo rate.","Low direct impact.","Steel/cement input costs linked to crude-based energy prices.","Rainfall affects rural project execution speed.","Union Budget allocation is the single biggest driver.","FPI interest in infra bonds tied to global yield spreads.","IIP directly tracks industrial construction activity.","Input cost inflation compresses EPC contractor margins."],
+  ["Low rates stimulate consumer credit for white goods.","Imported commodity inflation (edible oils) hurts margins.","Crude-linked packaging and logistics costs affect margins.","Strongest driver: rainfall determines rural income and volumes.","FMCG PLI, rural schemes, GST rates matter.","Low FPI sensitivity; mostly domestic consumption play.","IIP proxy for urban consumer spending capacity.","CPI inflation erodes real rural wages, dampens volumes."],
+  ["Auto loan EMIs directly driven by repo rate movements.","Crude affects petrol/diesel costs for end consumers.","Largest cost: crude inputs into rubber, plastics, steel.","Rural 2W and tractor demand heavily monsoon-dependent.","FAME EV subsidies, safety regulations, PLI for EVs.","Low FPI direct sensitivity; auto is primarily domestic.","IIP auto production tracks sector utilisation.","Fuel inflation affects consumer transport budgets."],
+  ["Low — PSUs are policy-protected from rate sensitivity.","Minimal; most energy pricing is domestic policy-driven.","Dominant driver: crude is the core underlying.","Negligible impact.","PSU divestment, pricing deregulation, green mandates.","FPI flows into PSU stocks driven by global risk appetite.","IIP energy consumption is a coincident indicator.","Fuel subsidy compression during high inflation is a key risk."],
+  ["Strongest single driver. Lower home loan EMIs boost sales.","Minimal direct impact.","Cement/steel input costs tied to crude logistics.","Urban housing unaffected; limited monsoon sensitivity.","RERA, stamp duty waivers, affordable housing subsidies.","NRI remittances and FDI in realty are rate-sensitive.","IIP construction index tracks real estate activity.","Inflation erodes real income and borrowing capacity."],
+  ["Low — global cycle dominates over domestic rate sensitivity.","Mild via import cost of raw materials.","Energy costs for metal smelting are significant.","No meaningful impact.","Mining lease policy, royalty structures matter.","China PMI and global FPI cycle heavily influence metals.","IIP metals production is the core coincident indicator.","CPI inflation via commodity pass-through."],
+  ["Mild — ESG portfolios avoid high-leverage sectors.","Moderate via global ESG fund USD allocation.","Low — ESG screens typically exclude fossil fuel names.","Climate risk integration becoming an ESG metric.","SEBI ESG ratings framework is the dominant driver.","Global ESG ETF inflows dominate; INR flows secondary.","Low direct IIP sensitivity; thematic overlay dominates.","Inflation drives reallocation away from ESG equities."],
+  ["Rate-sensitive via capex financing costs for manufacturers.","Moderate: export-linked manufacturing benefits from weak INR.","Input cost driver for plastics, chemicals, logistics.","Seasonal demand for agri-machinery and rural manufacturing.","PLI schemes and Make-in-India are primary alpha drivers.","Export order pipelines linked to global risk appetite.","IIP manufacturing PMI is the core real-time indicator.","Input cost inflation compresses factory EBITDA margins."],
+  ["Low rate sensitivity; consumption driven by income.","Negligible; rural consumption is predominantly domestic.","Fuel cost of rural transport and farm mechanisation.","The single dominant driver of rural income and consumption.","MGNREGA, PM-Kisan, crop MSP are direct income transfers.","Minimal FPI sensitivity; purely domestic consumption.","Rural IIP proxy for small industrial employment income.","Food CPI directly affects rural real purchasing power."],
+];
+
+let hmSort='sector', hmHighlight='';
+
 function renderMacro(){
   const grid=document.getElementById("macro-grid");
   grid.innerHTML=MACRO_DATA.map(m=>`
     <div class="macro-card">
-      <div class="macro-sector">Sector · ${m.type||'Mixed'}</div>
+      <div class="macro-sector">Sector</div>
       <div class="macro-title"><div class="macro-dot" style="background:${m.color}"></div>${m.sector}</div>
       <div style="font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:6px">${m.desc}</div>
       <div class="macro-factors">${m.factors.map(f=>`<span class="macro-factor">${f}</span>`).join("")}</div>
       <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between">
-        <span style="font-size:10px;color:var(--ink3)">Macro Sensitivity</span>
+        <span style="font-size:10px;color:var(--ink3)">Overall Sensitivity</span>
         <span class="macro-score" style="color:${m.score>8?"var(--neg)":m.score>6.5?"var(--orange)":"var(--pos)"}">${m.score}/10</span>
       </div>
       <div class="macro-bar-bg"><div class="macro-bar-fg" style="width:${m.score*10}%;background:${m.color}"></div></div>
     </div>`).join("");
 
-  // Heatmap
-  const sectorNames=MACRO_DATA.map(m=>m.sector.length>14?m.sector.substring(0,12)+"…":m.sector);
-  const factors=["RBI Rate","USD/INR","Crude Oil","Monsoon","Govt. Policy","Global FPI","IIP","CPI"];
-  const raw=[
-    [9,3,2,1,5,7,4,8],[3,4,2,1,2,9,5,3],[4,8,3,2,4,5,3,4],
-    [5,3,5,3,9,4,8,5],[2,4,6,8,5,3,4,8],[6,3,8,2,4,3,3,5],
-    [3,2,9,1,9,6,5,5],[9,2,5,2,7,4,3,5],[3,3,7,1,5,6,9,4],
-    [4,3,3,3,7,8,4,4],[6,3,5,3,9,4,9,5],[2,3,4,9,6,3,5,8],
-  ];
-  const flatVals=raw.flat();
-  const minV=Math.min(...flatVals),maxV=Math.max(...flatVals);
-  const datasets=factors.map((fac,fi)=>({
-    label:fac,
-    data:sectorNames.map((s,si)=>({x:s,y:fac,v:raw[si][fi]})),
-    backgroundColor:raw.map((row,si)=>{
-      const v=(row[fi]-minV)/(maxV-minV);
-      return `rgba(${lerp(30,255,v)},${lerp(100,200,1-v)},${lerp(200,60,v)},0.85)`;
-    }),
-  }));
-  const allData=[];
-  sectorNames.forEach((s,si)=>factors.forEach((fac,fi)=>allData.push({x:s,y:fac,v:raw[si][fi]})));
-  if(heatChart)heatChart.destroy();
-  heatChart=new Chart(document.getElementById("heat-chart"),{
-    type:"scatter",
-    data:{datasets:[{data:allData,backgroundColor:allData.map(d=>{
-      const v=(d.v-minV)/(maxV-minV);
-      return `rgba(${Math.round(lerp(30,255,v))},${Math.round(lerp(100,140,1-v))},${Math.round(lerp(200,60,v))},0.85)`;
-    }),pointRadius:18,pointStyle:"rect"}]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.x} / ${ctx.raw.y}: ${ctx.raw.v}/10`}}},
-      scales:{
-        x:{type:"category",labels:sectorNames,grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#9BA3BB",font:{size:9,family:"IBM Plex Sans"},maxRotation:45}},
-        y:{type:"category",labels:factors,grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#9BA3BB",font:{size:10,family:"IBM Plex Sans"}}}
-      }
-    }
-  });
+  buildHeatmap();
 }
+
+function setHmSort(mode,btn){
+  hmSort=mode;
+  document.querySelectorAll('#hm-sort-sector,#hm-sort-score').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildHeatmap();
+}
+function setHmFactor(factor,btn){
+  hmHighlight=factor;
+  document.querySelectorAll('#hm-factor-pills .pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  buildHeatmap();
+}
+
+function hmColor(v){
+  // 1–3: blue; 4–6: amber; 7–10: red
+  const t=v/10;
+  if(t<0.35){const u=t/0.35;return{r:Math.round(lerp(20,91,u)),g:Math.round(lerp(50,143,u)),b:Math.round(lerp(120,255,u)),a:.88};}
+  else if(t<0.65){const u=(t-0.35)/0.3;return{r:Math.round(lerp(91,246,u)),g:Math.round(lerp(143,200,u)),b:Math.round(lerp(255,67,u)),a:.88};}
+  else{const u=(t-0.65)/0.35;return{r:Math.round(lerp(246,255,u)),g:Math.round(lerp(200,75,u)),b:Math.round(lerp(67,55,u)),a:.88};}
+}
+function hmColorStr(v){const c=hmColor(v);return`rgba(${c.r},${c.g},${c.b},${c.a})`}
 function lerp(a,b,t){return a+(b-a)*t}
 
+function buildHeatmap(){
+  let order=[...MACRO_DATA.map((_,i)=>i)];
+  if(hmSort==='score') order.sort((a,b)=>MACRO_DATA[b].score-MACRO_DATA[a].score);
+
+  // X labels (sector names, styled with sector color dot)
+  const xlWrap=document.getElementById("hm-xlabels");
+  xlWrap.innerHTML=order.map(si=>{
+    const words=MACRO_DATA[si].sector.split(' ');
+    const label=words.length>2?words[0]+'<br>'+words.slice(1).join(' '):MACRO_DATA[si].sector;
+    return`<div class="hm-xlabel" style="color:${MACRO_DATA[si].color}">
+      <span style="display:block;width:8px;height:8px;border-radius:50%;background:${MACRO_DATA[si].color};margin:0 auto 3px"></span>
+      ${label}
+    </div>`;
+  }).join("");
+
+  // Y labels
+  document.getElementById("hm-ylabels").innerHTML=HM_FACTORS.map(f=>`<div class="hm-ylabel">${f}</div>`).join("");
+
+  // Cells
+  const cellsWrap=document.getElementById("hm-cells");
+  cellsWrap.innerHTML="";
+  HM_FACTORS.forEach((fac,fi)=>{
+    const row=document.createElement("div");row.className="hm-row";
+    order.forEach(si=>{
+      const v=HM_RAW[si][fi];
+      const col=hmColorStr(v);
+      const isDimmed=hmHighlight&&fac!==hmHighlight;
+      const isHL=hmHighlight&&fac===hmHighlight;
+      const cell=document.createElement("div");
+      cell.className="hm-cell"+(isDimmed?" dimmed":"")+(isHL?" highlighted":"");
+      cell.style.background=col;
+      cell.style.borderColor=isHL?"rgba(255,255,255,.45)":"transparent";
+      cell.innerHTML=`<span class="hm-cell-val">${v}</span><span class="hm-cell-sub">/10</span>`;
+      cell.addEventListener("mouseenter",e=>{
+        const tt=document.getElementById("hm-tooltip");
+        const desc=HM_DESCS[si]&&HM_DESCS[si][fi]?HM_DESCS[si][fi]:"";
+        const intensity=v>=8?"Very High":v>=6?"High":v>=4?"Moderate":"Low";
+        tt.innerHTML=`
+          <div class="hm-tt-sector" style="color:${MACRO_DATA[si].color}">${MACRO_DATA[si].sector}</div>
+          <div class="hm-tt-factor">Driver: ${fac}</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin:4px 0">
+            <span class="hm-tt-score" style="color:${col}">${v}</span>
+            <span style="color:var(--ink3);font-size:11px">/10 &nbsp;·&nbsp; ${intensity}</span>
+          </div>
+          <div class="hm-tt-bar" style="width:${v*10}%;background:${col}"></div>
+          ${desc?`<div class="hm-tt-desc">${desc}</div>`:""}`;
+        tt.classList.add("visible");
+        moveTt(e);
+      });
+      cell.addEventListener("mousemove",moveTt);
+      cell.addEventListener("mouseleave",()=>document.getElementById("hm-tooltip").classList.remove("visible"));
+      row.appendChild(cell);
+    });
+    cellsWrap.appendChild(row);
+  });
+}
+function moveTt(e){
+  const tt=document.getElementById("hm-tooltip");
+  const pad=16;
+  let x=e.clientX+pad,y=e.clientY+pad;
+  if(x+250>window.innerWidth)x=e.clientX-250-pad;
+  if(y+200>window.innerHeight)y=e.clientY-200-pad;
+  tt.style.left=x+"px";tt.style.top=y+"px";
+}
+
 // ═══════════════════════════════════════════════════════════
-// HISTORY TAB
+// HISTORY TAB — pill-based filter controls
 // ═══════════════════════════════════════════════════════════
+const ALL_HIST_SECTORS=["Banking & Finance","Information Technology","Pharmaceuticals","Infrastructure","FMCG & Consumption","Automobiles","Energy & Power","Real Estate","Metals & Mining","Manufacturing"];
+let hActiveSectors=new Set(["Banking & Finance","Information Technology","Pharmaceuticals","Infrastructure","FMCG & Consumption","Automobiles","Energy & Power"]);
+let hPeriod="3y", hChartType="indexed", hRollingMetric="sharpe", hRollingWindow=12;
+
+function initHistorySectors(){
+  const wrap=document.getElementById("h-sector-chips");
+  wrap.innerHTML=ALL_HIST_SECTORS.map(s=>`
+    <div class="h-sector-chip${hActiveSectors.has(s)?" active":""}"
+         style="color:${hActiveSectors.has(s)?SECTOR_COLORS[s]:"var(--ink3)"}"
+         data-sector="${s}"
+         onclick="toggleHSector('${s}',this)">
+      <span class="chip-dot" style="background:${SECTOR_COLORS[s]}"></span>${s}
+    </div>`).join("");
+}
+function toggleHSector(s,el){
+  if(hActiveSectors.has(s)){if(hActiveSectors.size<=1)return;hActiveSectors.delete(s);}
+  else hActiveSectors.add(s);
+  el.classList.toggle("active",hActiveSectors.has(s));
+  el.style.color=hActiveSectors.has(s)?SECTOR_COLORS[s]:"var(--ink3)";
+  renderHistory();
+}
+function hSelectAll(){
+  ALL_HIST_SECTORS.forEach(s=>hActiveSectors.add(s));
+  document.querySelectorAll(".h-sector-chip").forEach(el=>{
+    el.classList.add("active");el.style.color=SECTOR_COLORS[el.dataset.sector];
+  });renderHistory();
+}
+function hSelectNone(){
+  const first=ALL_HIST_SECTORS[0];
+  hActiveSectors.clear();hActiveSectors.add(first);
+  document.querySelectorAll(".h-sector-chip").forEach(el=>{
+    const s=el.dataset.sector;const on=s===first;
+    el.classList.toggle("active",on);el.style.color=on?SECTOR_COLORS[s]:"var(--ink3)";
+  });renderHistory();
+}
+function hSelectTop3(){
+  hActiveSectors.clear();
+  ["Energy & Power","Infrastructure","Pharmaceuticals"].forEach(s=>hActiveSectors.add(s));
+  document.querySelectorAll(".h-sector-chip").forEach(el=>{
+    const s=el.dataset.sector;const on=hActiveSectors.has(s);
+    el.classList.toggle("active",on);el.style.color=on?SECTOR_COLORS[s]:"var(--ink3)";
+  });renderHistory();
+}
+function setHPeriod(p,btn){
+  hPeriod=p;
+  document.querySelectorAll("#h-period-pills .pill").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");renderHistory();
+}
+function setHChartType(t,btn){
+  hChartType=t;
+  document.querySelectorAll("#h-chart-type-pills .pill").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");renderHistory();
+}
+function setRollingMetric(m,btn){
+  hRollingMetric=m;
+  document.querySelectorAll("#rolling-grid .pill").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("rolling-sharpe-card").style.display=(m==="stddev")?"none":"";
+  document.getElementById("rolling-std-card").style.display=(m==="sharpe")?"none":"";
+  renderRollingCharts([...hActiveSectors],hPeriod==="1y"?12:hPeriod==="3y"?36:60,buildLabels(hPeriod==="1y"?12:hPeriod==="3y"?36:60));
+}
+function setRollingWindow(w,btn){
+  hRollingWindow=w;
+  document.querySelectorAll("#rolling-grid .pills:last-of-type .pill").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  renderRollingCharts([...hActiveSectors],hPeriod==="1y"?12:hPeriod==="3y"?36:60,buildLabels(hPeriod==="1y"?12:hPeriod==="3y"?36:60));
+}
+
+function buildLabels(months){
+  const labels=[];const endDate=new Date(2026,2,31);
+  for(let i=months;i>=0;i--){
+    const d=new Date(endDate);d.setMonth(d.getMonth()-i);
+    labels.push(`${d.toLocaleString("default",{month:"short"})} '${String(d.getFullYear()).slice(-2)}`);
+  }
+  return labels;
+}
+function seededRand(seed){let s=seed;return()=>{s=(s*16807+0)%2147483647;return(s-1)/2147483646}}
+
 function generateNAV(sector,r1y,r3y,r5y,periods){
-  // Simulate price path using geometric Brownian motion seeded from known CAGR
   const annualReturn=periods===12?r1y/100:periods===36?r3y/100:r5y/100;
   const dailyMu=annualReturn/252;
   const sigma=0.015+(Math.abs(annualReturn)*0.08);
-  let nav=100;
-  const series=[nav];
-  const n=periods*21; // ~21 trading days/month
+  let nav=100;const series=[nav];
+  const n=periods*21;
   for(let i=0;i<n;i++){
     const shock=(Math.random()-0.5)*2*sigma;
     nav*=(1+dailyMu+shock);
@@ -1044,27 +1405,39 @@ function generateNAV(sector,r1y,r3y,r5y,periods){
 }
 
 function renderHistory(){
-  const period=document.getElementById("h-period").value;
-  const sec=document.getElementById("h-sector").value;
-  const months=period==="1y"?12:period==="3y"?36:60;
-  const sectors=sec?[sec]:["Banking & Finance","Information Technology","Pharmaceuticals","Infrastructure","FMCG & Consumption","Automobiles","Energy & Power"];
-  const labels=[];
-  const endDate=new Date(2026,2,31);
-  for(let i=months;i>=0;i--){
-    const d=new Date(endDate);d.setMonth(d.getMonth()-i);
-    labels.push(`${d.toLocaleString("default",{month:"short"})} '${String(d.getFullYear()).slice(-2)}`);
-  }
-  // Seed random for reproducibility per sector
-  function seededRand(seed){let s=seed;return()=>{s=(s*16807+0)%2147483647;return(s-1)/2147483646}}
+  const months=hPeriod==="1y"?12:hPeriod==="3y"?36:60;
+  const labels=buildLabels(months);
+  const sectors=[...hActiveSectors];
+
+  // Update active row summary
+  const chartTypeLabel={indexed:"Indexed to 100",return:"% Return",drawdown:"Max Drawdown"}[hChartType];
+  document.getElementById("h-active-row").innerHTML=
+    `<span style="color:var(--ink3)">Showing:</span>`+
+    sectors.map(s=>`<span class="chip" style="background:${SECTOR_COLORS[s]}22;color:${SECTOR_COLORS[s]}">${s}</span>`).join("")+
+    `<span class="chip" style="margin-left:4px">${hPeriod.toUpperCase()} · ${chartTypeLabel}</span>`;
+
+  // Update chart title
+  const titles={indexed:"Indexed NAV Performance (Base = 100)",return:"Cumulative % Return from Start",drawdown:"Maximum Drawdown from Peak"};
+  document.getElementById("h-chart-title").textContent=titles[hChartType];
+
+  // Build datasets
   const datasets=sectors.map(s=>{
-    const funds=FUNDS.filter(f=>f.sector===s);
-    if(!funds.length)return null;
+    const funds=FUNDS.filter(f=>f.sector===s);if(!funds.length)return null;
     const f=funds[0];
     const rng=seededRand(s.length*137+f.r5y*1000);
     const oldMath=Math.random;Math.random=rng;
     const navs=generateNAV(s,f.r1y,f.r3y,f.r5y,months);
     Math.random=oldMath;
-    return{label:s,data:navs.slice(0,labels.length),borderColor:SECTOR_COLORS[s],backgroundColor:"transparent",borderWidth:2,pointRadius:0,tension:.3};
+    const raw=navs.slice(0,labels.length);
+
+    let data;
+    if(hChartType==="indexed") data=raw;
+    else if(hChartType==="return") data=raw.map(v=>+(v-100).toFixed(2));
+    else{ // drawdown
+      let peak=raw[0];
+      data=raw.map(v=>{peak=Math.max(peak,v);return +((v/peak-1)*100).toFixed(2);});
+    }
+    return{label:s,data,borderColor:SECTOR_COLORS[s],backgroundColor:SECTOR_COLORS[s]+"18",fill:hChartType==="drawdown",borderWidth:2,pointRadius:0,tension:.3};
   }).filter(Boolean);
 
   if(lineChart)lineChart.destroy();
@@ -1072,53 +1445,60 @@ function renderHistory(){
     type:"line",data:{labels,datasets},
     options:{
       responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw}`}}},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw}${hChartType!=="indexed"?"%":""}`}}},
       scales:{
         x:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:10,family:"IBM Plex Mono"},maxRotation:0,autoSkip:true,maxTicksLimit:12}},
-        y:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:10,family:"IBM Plex Mono"}}}
+        y:{grid:{color:"rgba(255,255,255,.04)"},ticks:{callback:v=>hChartType==="indexed"?v:v+"%",color:"#5C6480",font:{size:10,family:"IBM Plex Mono"}}}
       }
     }
   });
-  document.getElementById("line-leg").innerHTML=sectors.map(s=>`<div class="leg-item"><div class="leg-dot" style="background:${SECTOR_COLORS[s]}"></div>${s}</div>`).join("");
+  document.getElementById("line-leg").innerHTML=sectors.map(s=>`
+    <div class="leg-item">
+      <div class="leg-dot" style="background:${SECTOR_COLORS[s]}"></div>${s}
+    </div>`).join("");
 
-  // Rolling Sharpe & Std Dev
   renderRollingCharts(sectors,months,labels);
 }
 
 function renderRollingCharts(sectors,months,labels){
-  const rsSectors=sectors.slice(0,5);
-  function seededRand(seed){let s=seed;return()=>{s=(s*16807+0)%2147483647;return(s-1)/2147483646}}
+  function seededRandL(seed){let s=seed;return()=>{s=(s*16807+0)%2147483647;return(s-1)/2147483646}}
+  const showSharpe=hRollingMetric!=="stddev";
+  const showStd=hRollingMetric!=="sharpe";
 
-  const sharpeData=rsSectors.map(s=>{
+  const sharpeData=sectors.map(s=>{
     const funds=FUNDS.filter(f=>f.sector===s);if(!funds.length)return null;
-    const f=funds[0];const rng=seededRand(s.length*233+f.sharpe*10000);
-    const data=labels.map((_,i)=>+(f.sharpe+(rng()-0.5)*0.4).toFixed(2));
+    const f=funds[0];const rng=seededRandL(s.length*233+f.sharpe*10000);
+    const data=labels.map(()=>+(f.sharpe+(rng()-0.5)*0.4).toFixed(2));
     return{label:s,data,borderColor:SECTOR_COLORS[s],backgroundColor:"transparent",borderWidth:1.5,pointRadius:0,tension:.4};
   }).filter(Boolean);
 
-  const stdData=rsSectors.map(s=>{
+  const stdData=sectors.map(s=>{
     const funds=FUNDS.filter(f=>f.sector===s);if(!funds.length)return null;
-    const f=funds[0];const rng=seededRand(s.length*411+f.stdDev*100);
-    const data=labels.map((_,i)=>+(f.stdDev+(rng()-0.5)*5).toFixed(1));
+    const f=funds[0];const rng=seededRandL(s.length*411+f.stdDev*100);
+    const data=labels.map(()=>+(f.stdDev+(rng()-0.5)*5).toFixed(1));
     return{label:s,data,borderColor:SECTOR_COLORS[s],backgroundColor:"transparent",borderWidth:1.5,pointRadius:0,tension:.4};
   }).filter(Boolean);
+
+  const scaleOpts=(isStd)=>({
+    x:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:9,family:"IBM Plex Mono"},maxTicksLimit:8,maxRotation:0}},
+    y:{grid:{color:"rgba(255,255,255,.04)"},ticks:{callback:v=>isStd?v+"%":v,color:"#5C6480",font:{size:9,family:"IBM Plex Mono"}}}
+  });
+
+  document.getElementById("rolling-sharpe-card").style.display=showSharpe?"":"none";
+  document.getElementById("rolling-std-card").style.display=showStd?"":"none";
 
   if(rollingSharpe)rollingSharpe.destroy();
-  rollingSharpe=new Chart(document.getElementById("rolling-sharpe"),{
+  if(showSharpe) rollingSharpe=new Chart(document.getElementById("rolling-sharpe"),{
     type:"line",data:{labels,datasets:sharpeData},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
-      plugins:{legend:{display:false}},
-      scales:{x:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:9},maxTicksLimit:8,maxRotation:0}},
-        y:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:9,family:"IBM Plex Mono"}}}}}
+      plugins:{legend:{display:false}},scales:scaleOpts(false)}
   });
 
   if(rollingStd)rollingStd.destroy();
-  rollingStd=new Chart(document.getElementById("rolling-std"),{
+  if(showStd) rollingStd=new Chart(document.getElementById("rolling-std"),{
     type:"line",data:{labels,datasets:stdData},
     options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
-      plugins:{legend:{display:false}},
-      scales:{x:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:9},maxTicksLimit:8,maxRotation:0}},
-        y:{grid:{color:"rgba(255,255,255,.04)"},ticks:{callback:v=>v+"%",color:"#5C6480",font:{size:9,family:"IBM Plex Mono"}}}}}
+      plugins:{legend:{display:false}},scales:scaleOpts(true)}
   });
 }
 
@@ -1196,6 +1576,7 @@ function updateCmpContent(){
 }
 
 // ─── INIT ─────────────────────────────────────────────────
+initHistorySectors();
 render();
 </script>
 </body>
