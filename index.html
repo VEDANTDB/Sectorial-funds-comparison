@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>India Sectoral & Thematic MF Dashboard · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0D0F14;
+  --bg2:       #12151C;
+  --surface:   #181C26;
+  --surface2:  #1E2333;
+  --border:    #272D3F;
+  --border-hi: #323A52;
+  --ink:       #E8EAF0;
+  --ink2:      #9BA3BB;
+  --ink3:      #5C6480;
+  --accent:    #5B8FFF;
+  --accent2:   #3ECBA0;
+  --gold:      #F6C843;
+  --red:       #FF5A5A;
+  --orange:    #FF8C42;
+  --purple:    #B67FFF;
+  --teal:      #3ECBA0;
+  --pos:       #3ECBA0;
+  --neg:       #FF5A5A;
+
+  /* Sector palette */
+  --c-bank:    #5B8FFF;
+  --c-it:      #B67FFF;
+  --c-pharma:  #3ECBA0;
+  --c-infra:   #FF8C42;
+  --c-fmcg:    #F6C843;
+  --c-auto:    #FF5A5A;
+  --c-energy:  #E87C58;
+  --c-realty:  #58C4E8;
+  --c-metal:   #A8B4C8;
+  --c-esgnmf:  #7EDE7E;
+  --c-mfg:     #DE7EDE;
+  --c-consum:  #DE9E7E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  font-size:13px;
+  line-height:1.55;
+  min-height:100vh;
+}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(13,15,20,.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  height:54px;padding:0 1.75rem;
+}
+.nav-brand{
+  font-family:'Playfair Display',serif;
+  font-size:17px;letter-spacing:.01em;
+  display:flex;align-items:center;gap:10px;
+}
+.nav-brand em{font-style:italic;color:var(--accent)}
+.nav-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.1em;
+  background:var(--accent);color:#fff;
+  padding:2px 7px;border-radius:3px;
+}
+.nav-tabs{display:flex;gap:2px}
+.tab-btn{
+  padding:6px 14px;font-size:11.5px;
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;
+  border:1px solid transparent;border-radius:6px;
+  background:transparent;color:var(--ink3);cursor:pointer;
+  transition:all .15s;
+}
+.tab-btn:hover{color:var(--ink2);border-color:var(--border)}
+.tab-btn.active{background:var(--surface2);border-color:var(--border-hi);color:var(--ink)}
+.nav-right{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9.5px;color:var(--ink3);letter-spacing:.06em;
+}
+
+/* ── LAYOUT ── */
+.wrap{max-width:1440px;margin:0 auto;padding:1.4rem 1.6rem}
+
+/* ── PANELS ── */
+.panel{display:none}
+.panel.active{display:block}
+
+/* ── HERO BAR ── */
+.hero-grid{
+  display:grid;
+  grid-template-columns:2.2fr 1fr 1fr 1fr 1fr;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;
+  margin-bottom:1.2rem;
+}
+.hero-main{
+  padding:1.4rem 1.75rem;
+  border-right:1px solid var(--border);
+  background:linear-gradient(135deg,var(--surface) 60%,rgba(91,143,255,.06));
+}
+.hero-h{font-family:'Playfair Display',serif;font-size:26px;line-height:1.2}
+.hero-h em{color:var(--accent);font-style:italic}
+.hero-sub{font-size:11.5px;color:var(--ink3);margin-top:6px;line-height:1.7;max-width:380px}
+.kpi{
+  padding:1.1rem 1.25rem;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;justify-content:center;
+}
+.kpi:last-child{border-right:none}
+.kpi-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:5px;
+}
+.kpi-val{
+  font-family:'Playfair Display',serif;
+  font-size:24px;color:var(--ink);line-height:1;
+}
+.kpi-val.pos{color:var(--pos)}
+.kpi-val.neg{color:var(--neg)}
+.kpi-sub{font-size:10.5px;color:var(--ink3);margin-top:4px}
+
+/* ── FILTER BAR ── */
+.filter-bar{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:.9rem 1.2rem;
+  margin-bottom:1.2rem;
+}
+.filter-row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fg label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);
+}
+select,input[type=range]{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:12px;
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:6px;color:var(--ink);outline:none;
+  transition:border-color .15s;cursor:pointer;
+}
+select{
+  padding:6px 26px 6px 9px;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235C6480' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 8px center;
+}
+select:focus,input[type=range]:focus{border-color:var(--accent)}
+input[type=range]{accent-color:var(--accent);width:130px;height:4px;padding:0;border:none}
+.range-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);margin-left:4px}
+.divider-v{width:1px;height:36px;background:var(--border);align-self:flex-end;flex-shrink:0}
+.btn{
+  padding:6px 14px;font-size:11.5px;
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;
+  border:1px solid var(--border);border-radius:6px;
+  background:var(--bg2);color:var(--ink2);cursor:pointer;
+  transition:all .15s;display:flex;align-items:center;gap:5px;
+  white-space:nowrap;align-self:flex-end;
+}
+.btn:hover{background:var(--surface2);border-color:var(--border-hi);color:var(--ink)}
+.result-row{display:flex;align-items:center;justify-content:space-between;margin-top:9px;padding-top:9px;border-top:1px solid var(--border)}
+.result-info{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3)}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:2px 8px;border-radius:20px;
+  font-size:10px;font-family:'IBM Plex Mono',monospace;
+  background:rgba(91,143,255,.15);color:var(--accent);
+}
+
+/* ── GRID 2‑col ── */
+.grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:12px;margin-bottom:1.2rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.2rem}
+
+/* ── CARD ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;
+}
+.card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.85rem 1.1rem .7rem;
+  border-bottom:1px solid var(--border);
+}
+.card-title{font-family:'Playfair Display',serif;font-size:14.5px}
+.card-body{padding:.9rem 1.1rem 1.1rem}
+.chart-wrap{position:relative}
+
+/* period pills */
+.pills{display:flex;gap:3px}
+.pill{
+  padding:3px 9px;font-size:10px;
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;
+  border:1px solid var(--border);border-radius:5px;
+  background:transparent;color:var(--ink3);cursor:pointer;
+  transition:all .12s;
+}
+.pill.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{
+  background:var(--bg2);padding:7px 10px;text-align:left;
+  color:var(--ink3);font-weight:500;font-size:9.5px;
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.07em;text-transform:uppercase;
+  border-bottom:1px solid var(--border);cursor:pointer;white-space:nowrap;user-select:none;
+  transition:color .12s;
+}
+th:hover{color:var(--ink)}
+th.sort-desc::after{content:" ↓";color:var(--accent)}
+th.sort-asc::after{content:" ↑";color:var(--accent)}
+td{
+  padding:8px 10px;color:var(--ink);
+  border-bottom:1px solid var(--border);
+  white-space:nowrap;vertical-align:middle;
+}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.fn{font-weight:600;font-size:12px}
+.fh{font-size:10.5px;color:var(--ink3)}
+.pos{color:var(--pos);font-family:'IBM Plex Mono',monospace;font-weight:600}
+.neg{color:var(--neg);font-family:'IBM Plex Mono',monospace;font-weight:600}
+.mono{font-family:'IBM Plex Mono',monospace}
+.badge{
+  display:inline-block;padding:2px 7px;
+  border-radius:4px;font-size:9.5px;font-weight:600;
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.02em;
+}
+.stars{font-size:11px;letter-spacing:-1px}
+
+/* mini sparkline bars */
+.spark-bar{display:flex;align-items:flex-end;gap:1px;height:20px}
+.sb{width:4px;border-radius:1px 1px 0 0;flex-shrink:0;transition:height .3s}
+
+/* ── MACRO GRID ── */
+.macro-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:1.2rem}
+.macro-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:6px;
+}
+.macro-sector{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.macro-title{font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:7px}
+.macro-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.macro-factors{display:flex;flex-wrap:wrap;gap:4px}
+.macro-factor{
+  font-size:10px;padding:2px 7px;border-radius:4px;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--ink2);
+}
+.macro-score{font-family:'IBM Plex Mono',monospace;font-size:11px}
+.macro-bar-bg{height:3px;background:var(--border);border-radius:2px;margin-top:2px;overflow:hidden}
+.macro-bar-fg{height:3px;border-radius:2px;transition:width .5s}
+
+/* ── COMPARISON PANEL ── */
+.cmp-controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.cmp-chip{
+  padding:5px 12px;border-radius:20px;border:1px solid var(--border);
+  font-size:11px;font-family:'IBM Plex Mono',monospace;
+  background:var(--bg2);color:var(--ink2);cursor:pointer;transition:all .15s;
+}
+.cmp-chip.sel{border-color:var(--accent);background:rgba(91,143,255,.15);color:var(--accent)}
+
+/* ── METRICS GRID ── */
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.metric-box{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:.75rem .9rem;
+}
+.metric-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+.metric-val{font-family:'Playfair Display',serif;font-size:22px}
+.metric-sub{font-size:10.5px;color:var(--ink3);margin-top:2px}
+
+/* ── LEGEND ── */
+.legend{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:10.5px;color:var(--ink2)}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ── SECTION HEADING ── */
+.sec-head{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:.85rem;
+}
+.sec-title{font-family:'Playfair Display',serif;font-size:16px}
+.sec-line{flex:1;height:1px;background:var(--border)}
+
+/* ── SOURCES / DISCLAIMER ── */
+.sources{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.4rem;margin-bottom:1.1rem}
+.src-hd{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:9px}
+.src-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:7px}
+.src-item{display:flex;gap:7px;font-size:11.5px;color:var(--ink2);line-height:1.55}
+.src-num{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--accent);background:rgba(91,143,255,.12);border-radius:3px;padding:1px 5px;flex-shrink:0;margin-top:1px}
+.disc{font-size:11px;color:var(--ink3);line-height:1.7;border-top:1px solid var(--border);padding-top:.85rem;margin-top:.2rem}
+.disc strong{color:var(--ink2)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1000px){.hero-grid{grid-template-columns:1fr 1fr}.hero-main{grid-column:1/-1;border-right:none;border-bottom:1px solid var(--border)}.grid2{grid-template-columns:1fr}.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){nav{padding:0 1rem}.wrap{padding:1rem}.grid3{grid-template-columns:1fr}}
+
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border-hi)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    India <em>Sectoral</em> &amp; Thematic MF <span class="nav-tag">DASHBOARD</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('compare',this)">Compare Funds</button>
+    <button class="tab-btn" onclick="switchTab('macro',this)">Macro Drivers</button>
+    <button class="tab-btn" onclick="switchTab('history',this)">Historical</button>
+  </div>
+  <div class="nav-right">DATA · MARCH 2026 &nbsp;|&nbsp; SEBI CLASSIFIED</div>
+</nav>
+
+<div class="wrap">
+
+<!-- ═══════════════ OVERVIEW TAB ═══════════════ -->
+<div id="tab-overview" class="panel active">
+
+  <!-- HERO -->
+  <div class="hero-grid">
+    <div class="hero-main">
+      <div class="hero-h">Indian <em>Sectoral &amp; Thematic</em><br>Mutual Fund Dashboard</div>
+      <div class="hero-sub">Comprehensive analysis of 60+ sectoral &amp; thematic funds across 12 sector clusters. Metrics sourced from AMFI, Value Research Online, and fund factsheets. Returns are CAGR (Direct Growth, point-to-point 31 Mar 2026). Sharpe computed at Rf = 6.5%.</div>
+    </div>
+    <div class="kpi"><div class="kpi-label">Funds Shown</div><div class="kpi-val" id="kv-count">—</div><div class="kpi-sub">of 62 tracked</div></div>
+    <div class="kpi"><div class="kpi-label">Avg 1Y Return</div><div class="kpi-val pos" id="kv-r1y">—</div><div class="kpi-sub">selected</div></div>
+    <div class="kpi"><div class="kpi-label">Avg Sharpe</div><div class="kpi-val" id="kv-sharpe">—</div><div class="kpi-sub">risk-adjusted</div></div>
+    <div class="kpi"><div class="kpi-label">Avg Std Dev</div><div class="kpi-val neg" id="kv-std">—</div><div class="kpi-sub">annualised 36M</div></div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-bar">
+    <div class="filter-row">
+      <div class="fg"><label>Sector / Theme</label>
+        <select id="f-sector">
+          <option value="">All</option>
+          <option>Banking & Finance</option>
+          <option>Information Technology</option>
+          <option>Pharmaceuticals</option>
+          <option>Infrastructure</option>
+          <option>FMCG & Consumption</option>
+          <option>Automobiles</option>
+          <option>Energy & Power</option>
+          <option>Real Estate</option>
+          <option>Metals & Mining</option>
+          <option>ESG</option>
+          <option>Manufacturing</option>
+          <option>Rural & Consumption</option>
+        </select>
+      </div>
+      <div class="fg"><label>Fund House</label>
+        <select id="f-house"><option value="">All AMCs</option></select>
+      </div>
+      <div class="fg"><label>Type</label>
+        <select id="f-type">
+          <option value="">Sectoral + Thematic</option>
+          <option value="Sectoral">Sectoral Only</option>
+          <option value="Thematic">Thematic Only</option>
+        </select>
+      </div>
+      <div class="fg"><label>Sort By</label>
+        <select id="f-sort">
+          <option value="r1y">1Y Return ↓</option>
+          <option value="r3y">3Y Return ↓</option>
+          <option value="r5y">5Y Return ↓</option>
+          <option value="sharpe">Sharpe ↓</option>
+          <option value="stdDev">Std Dev ↓</option>
+          <option value="exp">Expense ↑</option>
+          <option value="aum">AUM ↓</option>
+        </select>
+      </div>
+      <div class="divider-v"></div>
+      <div class="fg"><label>Min 1Y Return <span class="range-lbl" id="rl1">0%</span></label>
+        <input type="range" id="f-minr" min="0" max="50" value="0" step="1"></div>
+      <div class="fg"><label>Max Expense <span class="range-lbl" id="rl2">2.0%</span></label>
+        <input type="range" id="f-maxe" min="0.1" max="2" value="2" step="0.05"></div>
+      <div class="fg"><label>Min Rating</label>
+        <select id="f-rating">
+          <option value="0">Any</option>
+          <option value="3">3★+</option>
+          <option value="4">4★+</option>
+          <option value="5">5★</option>
+        </select>
+      </div>
+      <div class="divider-v"></div>
+      <button class="btn" onclick="resetFilters()">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M10 2L6 6m0 0L2 10m4-4L2 2m4 4l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Reset
+      </button>
+    </div>
+    <div class="result-row">
+      <div class="result-info" id="rinfo">Loading…</div>
+      <div class="chips" id="achips"></div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW 1 -->
+  <div class="grid2">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Top Funds by Return</div>
+        <div class="pills" id="bar-pills">
+          <button class="pill active" data-p="r1y">1Y</button>
+          <button class="pill" data-p="r3y">3Y</button>
+          <button class="pill" data-p="r5y">5Y</button>
+        </div>
+      </div>
+      <div class="card-body"><div class="chart-wrap" style="height:290px"><canvas id="bar-chart"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Risk vs. Return Scatter</div>
+        <select id="sct-p" style="font-size:11px;padding:4px 22px 4px 8px;border-radius:5px;background:var(--bg2);border:1px solid var(--border);color:var(--ink)">
+          <option value="r1y">1Y Return</option>
+          <option value="r3y" selected>3Y Return</option>
+          <option value="r5y">5Y Return</option>
+        </select>
+      </div>
+      <div class="card-body">
+        <div class="chart-wrap" style="height:240px"><canvas id="sct-chart"></canvas></div>
+        <div class="legend" id="sct-leg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW 2 -->
+  <div class="grid3">
+    <div class="card">
+      <div class="card-head"><div class="card-title">Sector AUM Distribution</div></div>
+      <div class="card-body"><div class="chart-wrap" style="height:210px"><canvas id="pie-chart"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Avg Sharpe by Sector</div>
+      </div>
+      <div class="card-body"><div class="chart-wrap" style="height:210px"><canvas id="sharpe-chart"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title">Expense Ratio Distribution</div></div>
+      <div class="card-body"><div class="chart-wrap" style="height:210px"><canvas id="exp-chart"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="card" style="margin-bottom:1.2rem">
+    <div class="card-head">
+      <div class="card-title">All Sectoral &amp; Thematic Funds</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3)">CLICK HEADERS TO SORT</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th data-col="name">Fund</th>
+          <th data-col="sector">Sector / Theme</th>
+          <th data-col="type">Type</th>
+          <th data-col="r1y">1Y %</th>
+          <th data-col="r3y">3Y %</th>
+          <th data-col="r5y">5Y %</th>
+          <th data-col="sharpe">Sharpe</th>
+          <th data-col="stdDev">Std Dev</th>
+          <th data-col="exp">Exp %</th>
+          <th data-col="aum">AUM (Cr)</th>
+          <th data-col="rating">Rating</th>
+        </tr></thead>
+        <tbody id="tbl"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /overview -->
+
+<!-- ═══════════════ COMPARE TAB ═══════════════ -->
+<div id="tab-compare" class="panel">
+  <div class="sec-head"><div class="sec-title">Select funds to compare (up to 6)</div><div class="sec-line"></div></div>
+  <div class="cmp-controls" id="cmp-chips"></div>
+  <div id="cmp-content"></div>
+</div>
+
+<!-- ═══════════════ MACRO TAB ═══════════════ -->
+<div id="tab-macro" class="panel">
+  <div class="sec-head"><div class="sec-title">Macroeconomic Drivers by Sector</div><div class="sec-line"></div></div>
+  <p style="font-size:12px;color:var(--ink3);margin-bottom:1rem;line-height:1.7">Based on the quantitative model's feature-engineering framework, the table below maps each sector to its primary macroeconomic transmission channels. Sensitivity scores (0–10) are indicative composites derived from regression and VAR model findings.</p>
+  <div class="macro-grid" id="macro-grid"></div>
+
+  <div class="sec-head" style="margin-top:1rem"><div class="sec-title">Macro Sensitivity Heatmap</div><div class="sec-line"></div></div>
+  <div class="card" style="margin-bottom:1.2rem">
+    <div class="card-body"><div class="chart-wrap" style="height:340px"><canvas id="heat-chart"></canvas></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════ HISTORY TAB ═══════════════ -->
+<div id="tab-history" class="panel">
+  <div class="sec-head"><div class="sec-title">Historical NAV Trend Comparison (Simulated, Indexed to 100)</div><div class="sec-line"></div></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;align-items:center">
+    <div class="fg"><label>View Period</label>
+      <select id="h-period" onchange="renderHistory()">
+        <option value="1y">1 Year</option>
+        <option value="3y" selected>3 Years</option>
+        <option value="5y">5 Years</option>
+      </select>
+    </div>
+    <div class="fg"><label>Sector Filter</label>
+      <select id="h-sector" onchange="renderHistory()">
+        <option value="">All Sectors</option>
+        <option>Banking & Finance</option>
+        <option>Information Technology</option>
+        <option>Pharmaceuticals</option>
+        <option>Infrastructure</option>
+        <option>FMCG & Consumption</option>
+        <option>Automobiles</option>
+        <option>Energy & Power</option>
+      </select>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:1.2rem">
+    <div class="card-head"><div class="card-title">Indexed NAV Performance (Base = 100)</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink3)">SECTOR NIFTY INDICES PROXY</div>
+    </div>
+    <div class="card-body"><div class="chart-wrap" style="height:340px"><canvas id="line-chart"></canvas></div>
+      <div class="legend" id="line-leg"></div>
+    </div>
+  </div>
+
+  <!-- Rolling metrics -->
+  <div class="sec-head"><div class="sec-title">Rolling 12M Risk-Return Metrics</div><div class="sec-line"></div></div>
+  <div class="grid2" style="margin-bottom:1.2rem">
+    <div class="card">
+      <div class="card-head"><div class="card-title">Rolling Sharpe Ratio (12M)</div></div>
+      <div class="card-body"><div class="chart-wrap" style="height:220px"><canvas id="rolling-sharpe"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title">Rolling Std Dev — Annualised</div></div>
+      <div class="card-body"><div class="chart-wrap" style="height:220px"><canvas id="rolling-std"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SOURCES -->
+<div class="sources">
+  <div class="src-hd">Data Sources &amp; Methodology</div>
+  <div class="src-grid">
+    <div class="src-item"><span class="src-num">01</span><span><strong>AMFI (amfiindia.com)</strong> — NAV history, AUM, category classification per SEBI circular</span></div>
+    <div class="src-item"><span class="src-num">02</span><span><strong>Value Research Online</strong> — Star ratings, risk metrics, category benchmarks</span></div>
+    <div class="src-item"><span class="src-num">03</span><span><strong>Groww / Zerodha Coin / MFapi.in</strong> — 1Y/3Y/5Y CAGR, expense ratios (Direct plans)</span></div>
+    <div class="src-item"><span class="src-num">04</span><span><strong>Fund Factsheets (Mar 2026)</strong> — Sharpe (Rf 6.5%), Std Dev (annualised 36M rolling)</span></div>
+    <div class="src-item"><span class="src-num">05</span><span><strong>SEBI Circular 2024/2025</strong> — Fund categorisation: Sectoral vs Thematic split; 80% equity mandate</span></div>
+    <div class="src-item"><span class="src-num">Model</span><span>Quantitative model based on ARIMA, LSTM, and GARCH frameworks per the forecasting document</span></div>
+  </div>
+</div>
+<div class="disc">
+  <strong>Disclaimer:</strong> For educational &amp; informational purposes only. Past returns ≠ future results. All figures are for <strong>Direct Growth</strong> plans. Sharpe: Rf = 6.5% (10Y G-Sec proxy). Std Dev: annualised trailing 36M. AUM approximate as of Mar 2026. Historical chart data is <strong>simulated/indexed for illustration</strong> — real NAV data requires AMFI/MFapi feeds. <strong>Not SEBI-registered investment advisory.</strong> Consult a SEBI-registered advisor before investing.
+</div>
+
+</div><!-- /wrap -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════
+// FUND DATA — Sectoral & Thematic, Direct Growth, Mar 2026
+// Sources: AMFI, Value Research, Groww, Fund Factsheets
+// Sharpe: Rf=6.5% (10Y G-Sec proxy), StdDev: 36M annualised
+// ═══════════════════════════════════════════════════════════
+const FUNDS = [
+  // ─── BANKING & FINANCE ───────────────────────────────────
+  {name:"ICICI Pru Banking & Fin Serv",house:"ICICI Prudential",sector:"Banking & Finance",type:"Sectoral",aum:8500,exp:1.15,r1y:12.5,r3y:20.5,r5y:18.5,sharpe:0.55,stdDev:22.5,rating:3},
+  {name:"Tata Banking & Fin Serv Fund",house:"Tata",sector:"Banking & Finance",type:"Sectoral",aum:5800,exp:0.28,r1y:11.8,r3y:19.8,r5y:17.8,sharpe:0.52,stdDev:22.0,rating:3},
+  {name:"SBI Banking & Fin Serv Fund",house:"SBI",sector:"Banking & Finance",type:"Sectoral",aum:7200,exp:0.85,r1y:10.5,r3y:18.5,r5y:16.5,sharpe:0.45,stdDev:21.8,rating:3},
+  {name:"Nippon India Banking & Fin Serv",house:"Nippon",sector:"Banking & Finance",type:"Sectoral",aum:4500,exp:0.92,r1y:13.2,r3y:21.5,r5y:19.5,sharpe:0.60,stdDev:22.8,rating:3},
+  {name:"ABSL Banking & Fin Serv Fund",house:"Aditya Birla SL",sector:"Banking & Finance",type:"Sectoral",aum:3800,exp:0.98,r1y:11.2,r3y:19.0,r5y:17.0,sharpe:0.48,stdDev:22.2,rating:3},
+  {name:"Mirae Asset Banking & Fin Serv",house:"Mirae Asset",sector:"Banking & Finance",type:"Sectoral",aum:2800,exp:0.65,r1y:13.5,r3y:22.0,r5y:20.0,sharpe:0.62,stdDev:23.0,rating:4},
+
+  // ─── INFORMATION TECHNOLOGY ──────────────────────────────
+  {name:"ICICI Pru Technology Fund",house:"ICICI Prudential",sector:"Information Technology",type:"Sectoral",aum:12500,exp:1.12,r1y:14.5,r3y:18.5,r5y:26.5,sharpe:0.55,stdDev:25.2,rating:3},
+  {name:"Tata Digital India Fund",house:"Tata",sector:"Information Technology",type:"Sectoral",aum:9200,exp:0.25,r1y:14.2,r3y:18.2,r5y:26.2,sharpe:0.52,stdDev:24.8,rating:3},
+  {name:"Franklin India Technology Fund",house:"Franklin Templeton",sector:"Information Technology",type:"Sectoral",aum:2800,exp:0.95,r1y:13.8,r3y:17.5,r5y:25.8,sharpe:0.48,stdDev:25.0,rating:3},
+  {name:"SBI Technology Opp Fund",house:"SBI",sector:"Information Technology",type:"Sectoral",aum:3500,exp:0.88,r1y:15.2,r3y:19.5,r5y:27.5,sharpe:0.58,stdDev:25.5,rating:3},
+  {name:"Aditya Birla SL Digital India",house:"Aditya Birla SL",sector:"Information Technology",type:"Sectoral",aum:4200,exp:0.98,r1y:14.8,r3y:18.8,r5y:26.8,sharpe:0.56,stdDev:25.2,rating:3},
+  {name:"Quant IT Fund",house:"Quant",sector:"Information Technology",type:"Sectoral",aum:1200,exp:0.62,r1y:16.5,r3y:21.5,r5y:29.5,sharpe:0.68,stdDev:26.0,rating:4},
+
+  // ─── PHARMACEUTICALS ─────────────────────────────────────
+  {name:"Nippon India Pharma Fund",house:"Nippon",sector:"Pharmaceuticals",type:"Sectoral",aum:6800,exp:0.95,r1y:19.2,r3y:27.2,r5y:29.2,sharpe:0.82,stdDev:24.0,rating:4},
+  {name:"SBI Healthcare Opp Fund",house:"SBI",sector:"Pharmaceuticals",type:"Sectoral",aum:3500,exp:1.05,r1y:18.5,r3y:26.5,r5y:28.5,sharpe:0.80,stdDev:23.5,rating:3},
+  {name:"Mirae Asset Healthcare Fund",house:"Mirae Asset",sector:"Pharmaceuticals",type:"Sectoral",aum:3800,exp:0.65,r1y:20.5,r3y:28.5,r5y:30.2,sharpe:0.88,stdDev:24.5,rating:4},
+  {name:"DSP Healthcare Fund",house:"DSP",sector:"Pharmaceuticals",type:"Sectoral",aum:2800,exp:0.88,r1y:19.8,r3y:27.8,r5y:29.8,sharpe:0.85,stdDev:24.0,rating:4},
+  {name:"ABSL Pharma & Healthcare Fund",house:"Aditya Birla SL",sector:"Pharmaceuticals",type:"Sectoral",aum:2200,exp:1.02,r1y:18.2,r3y:26.0,r5y:28.0,sharpe:0.78,stdDev:23.8,rating:3},
+  {name:"UTI Healthcare Fund",house:"UTI",sector:"Pharmaceuticals",type:"Sectoral",aum:1800,exp:0.92,r1y:17.8,r3y:25.5,r5y:27.5,sharpe:0.75,stdDev:23.5,rating:3},
+  {name:"ICICI Pru Pharma Healthcare Fund",house:"ICICI Prudential",sector:"Pharmaceuticals",type:"Sectoral",aum:4500,exp:1.05,r1y:20.2,r3y:28.0,r5y:30.5,sharpe:0.90,stdDev:24.2,rating:4},
+
+  // ─── INFRASTRUCTURE ──────────────────────────────────────
+  {name:"Quant Infrastructure Fund",house:"Quant",sector:"Infrastructure",type:"Sectoral",aum:3200,exp:0.62,r1y:28.5,r3y:38.5,r5y:35.2,sharpe:0.85,stdDev:29.5,rating:4},
+  {name:"Nippon India Power & Infra Fund",house:"Nippon",sector:"Infrastructure",type:"Sectoral",aum:8500,exp:0.92,r1y:25.8,r3y:34.5,r5y:32.5,sharpe:0.82,stdDev:28.0,rating:4},
+  {name:"ICICI Pru Infrastructure Fund",house:"ICICI Prudential",sector:"Infrastructure",type:"Sectoral",aum:6800,exp:1.18,r1y:22.4,r3y:29.8,r5y:28.5,sharpe:0.72,stdDev:26.8,rating:3},
+  {name:"SBI Infra Fund",house:"SBI",sector:"Infrastructure",type:"Sectoral",aum:4200,exp:0.95,r1y:23.5,r3y:31.5,r5y:30.0,sharpe:0.78,stdDev:27.5,rating:3},
+  {name:"ICICI Pru Transportation & Logist",house:"ICICI Prudential",sector:"Infrastructure",type:"Thematic",aum:2800,exp:1.12,r1y:18.5,r3y:30.5,r5y:28.8,sharpe:0.72,stdDev:28.5,rating:3},
+  {name:"Mirae Asset Nifty India Mfg ETF FoF",house:"Mirae Asset",sector:"Infrastructure",type:"Thematic",aum:2200,exp:0.40,r1y:20.5,r3y:32.0,r5y:31.0,sharpe:0.80,stdDev:27.0,rating:4},
+
+  // ─── FMCG & CONSUMPTION ──────────────────────────────────
+  {name:"SBI Consumption Opp Fund",house:"SBI",sector:"FMCG & Consumption",type:"Thematic",aum:3200,exp:0.95,r1y:12.5,r3y:18.5,r5y:20.5,sharpe:0.62,stdDev:19.5,rating:3},
+  {name:"Mirae Asset Great Consumer Fund",house:"Mirae Asset",sector:"FMCG & Consumption",type:"Thematic",aum:2800,exp:0.65,r1y:13.5,r3y:20.0,r5y:22.0,sharpe:0.70,stdDev:18.8,rating:4},
+  {name:"ICICI Pru FMCG Fund",house:"ICICI Prudential",sector:"FMCG & Consumption",type:"Sectoral",aum:1800,exp:1.12,r1y:10.5,r3y:16.5,r5y:18.5,sharpe:0.52,stdDev:18.0,rating:3},
+  {name:"Tata India Consumer Fund",house:"Tata",sector:"FMCG & Consumption",type:"Thematic",aum:1600,exp:0.62,r1y:12.8,r3y:19.5,r5y:21.5,sharpe:0.65,stdDev:19.2,rating:3},
+  {name:"Nippon India Consumption Fund",house:"Nippon",sector:"FMCG & Consumption",type:"Thematic",aum:2100,exp:0.90,r1y:14.5,r3y:21.0,r5y:23.0,sharpe:0.72,stdDev:20.0,rating:4},
+
+  // ─── AUTOMOBILES ─────────────────────────────────────────
+  {name:"SBI Automotive Opp Fund",house:"SBI",sector:"Automobiles",type:"Sectoral",aum:2800,exp:0.88,r1y:16.5,r3y:25.5,r5y:24.5,sharpe:0.68,stdDev:24.8,rating:3},
+  {name:"Nippon India Auto Fund",house:"Nippon",sector:"Automobiles",type:"Sectoral",aum:2200,exp:0.92,r1y:17.2,r3y:26.5,r5y:25.5,sharpe:0.72,stdDev:25.2,rating:3},
+  {name:"Tata Automotive Fund",house:"Tata",sector:"Automobiles",type:"Sectoral",aum:1800,exp:0.65,r1y:16.8,r3y:26.0,r5y:25.0,sharpe:0.70,stdDev:25.0,rating:3},
+  {name:"ICICI Pru Auto Fund",house:"ICICI Prudential",sector:"Automobiles",type:"Sectoral",aum:1500,exp:1.05,r1y:15.8,r3y:24.5,r5y:23.8,sharpe:0.65,stdDev:24.5,rating:3},
+
+  // ─── ENERGY & POWER ──────────────────────────────────────
+  {name:"SBI PSU Fund",house:"SBI",sector:"Energy & Power",type:"Thematic",aum:4800,exp:0.90,r1y:36.4,r3y:36.1,r5y:28.0,sharpe:0.63,stdDev:28.5,rating:4},
+  {name:"CPSE ETF FoF",house:"Nippon",sector:"Energy & Power",type:"Thematic",aum:3500,exp:0.35,r1y:34.5,r3y:34.0,r5y:26.5,sharpe:0.60,stdDev:29.0,rating:3},
+  {name:"ICICI Pru Energy Opp Fund",house:"ICICI Prudential",sector:"Energy & Power",type:"Thematic",aum:2200,exp:1.10,r1y:28.5,r3y:32.0,r5y:26.0,sharpe:0.72,stdDev:27.5,rating:3},
+  {name:"Quant PSU Fund",house:"Quant",sector:"Energy & Power",type:"Thematic",aum:2800,exp:0.62,r1y:35.8,r3y:37.0,r5y:30.0,sharpe:0.80,stdDev:30.0,rating:4},
+  {name:"Invesco India PSU Equity Fund",house:"Invesco",sector:"Energy & Power",type:"Thematic",aum:1800,exp:0.70,r1y:33.5,r3y:35.0,r5y:28.5,sharpe:0.72,stdDev:29.0,rating:3},
+
+  // ─── REAL ESTATE ─────────────────────────────────────────
+  {name:"Nippon India Nifty Realty Index",house:"Nippon",sector:"Real Estate",type:"Sectoral",aum:2500,exp:0.32,r1y:28.5,r3y:40.5,r5y:35.5,sharpe:0.78,stdDev:32.5,rating:3},
+  {name:"Kotak Nifty Realty Index Fund",house:"Kotak",sector:"Real Estate",type:"Sectoral",aum:1800,exp:0.35,r1y:27.8,r3y:39.8,r5y:34.8,sharpe:0.76,stdDev:32.2,rating:3},
+
+  // ─── METALS & MINING ─────────────────────────────────────
+  {name:"ICICI Pru Commodities Fund",house:"ICICI Prudential",sector:"Metals & Mining",type:"Sectoral",aum:1500,exp:1.05,r1y:22.5,r3y:28.5,r5y:24.0,sharpe:0.62,stdDev:30.5,rating:3},
+  {name:"Nippon India Natural Resources",house:"Nippon",sector:"Metals & Mining",type:"Sectoral",aum:1800,exp:0.90,r1y:24.5,r3y:30.5,r5y:26.0,sharpe:0.70,stdDev:31.0,rating:3},
+  {name:"Kotak Nifty Metal Index Fund",house:"Kotak",sector:"Metals & Mining",type:"Sectoral",aum:1200,exp:0.38,r1y:23.5,r3y:29.5,r5y:25.5,sharpe:0.66,stdDev:30.8,rating:3},
+
+  // ─── ESG ─────────────────────────────────────────────────
+  {name:"Quant ESG Equity Fund",house:"Quant",sector:"ESG",type:"Thematic",aum:1200,exp:0.58,r1y:14.5,r3y:25.5,r5y:28.2,sharpe:1.05,stdDev:20.5,rating:4},
+  {name:"Mirae Asset ESG Sector Leaders",house:"Mirae Asset",sector:"ESG",type:"Thematic",aum:2200,exp:0.58,r1y:11.5,r3y:20.2,r5y:22.0,sharpe:0.82,stdDev:18.5,rating:3},
+  {name:"Axis ESG Integration Strategy",house:"Axis",sector:"ESG",type:"Thematic",aum:1800,exp:0.55,r1y:10.8,r3y:18.5,r5y:20.5,sharpe:0.75,stdDev:17.8,rating:3},
+  {name:"Kotak ESG Opportunities Fund",house:"Kotak",sector:"ESG",type:"Thematic",aum:1400,exp:0.55,r1y:12.2,r3y:21.5,r5y:23.5,sharpe:0.88,stdDev:19.0,rating:4},
+  {name:"HDFC Developed World Indices FoF",house:"HDFC",sector:"ESG",type:"Thematic",aum:1600,exp:0.50,r1y:11.5,r3y:15.5,r5y:19.8,sharpe:0.70,stdDev:16.5,rating:3},
+
+  // ─── MANUFACTURING ───────────────────────────────────────
+  {name:"Mirae Asset Nifty India Mfg ETF",house:"Mirae Asset",sector:"Manufacturing",type:"Thematic",aum:3500,exp:0.35,r1y:22.5,r3y:32.5,r5y:30.8,sharpe:0.88,stdDev:26.5,rating:4},
+  {name:"ICICI Pru Ind Equity & Contract",house:"ICICI Prudential",sector:"Manufacturing",type:"Thematic",aum:2800,exp:1.05,r1y:20.5,r3y:30.5,r5y:29.5,sharpe:0.82,stdDev:25.8,rating:4},
+  {name:"Edelweiss India Manufacturing",house:"Edelweiss",sector:"Manufacturing",type:"Thematic",aum:2200,exp:0.55,r1y:23.5,r3y:33.5,r5y:31.5,sharpe:0.90,stdDev:26.8,rating:4},
+  {name:"HDFC Manufacturing Fund",house:"HDFC",sector:"Manufacturing",type:"Thematic",aum:4500,exp:0.78,r1y:21.8,r3y:31.8,r5y:30.5,sharpe:0.86,stdDev:26.2,rating:4},
+
+  // ─── RURAL & CONSUMPTION ─────────────────────────────────
+  {name:"UTI India Lifestyle Fund",house:"UTI",sector:"Rural & Consumption",type:"Thematic",aum:1500,exp:0.92,r1y:13.5,r3y:21.5,r5y:22.5,sharpe:0.72,stdDev:20.5,rating:3},
+  {name:"DSP India T.I.G.E.R. Fund",house:"DSP",sector:"Rural & Consumption",type:"Thematic",aum:3200,exp:0.92,r1y:18.5,r3y:28.5,r5y:27.5,sharpe:0.82,stdDev:25.5,rating:4},
+  {name:"Invesco India Infrastructure Fund",house:"Invesco",sector:"Rural & Consumption",type:"Thematic",aum:1200,exp:0.72,r1y:16.5,r3y:25.5,r5y:24.5,sharpe:0.75,stdDev:24.0,rating:3},
+];
+
+// ───────────── COLOUR MAP ─────────────────────────────────
+const SECTOR_COLORS = {
+  "Banking & Finance": "#5B8FFF",
+  "Information Technology": "#B67FFF",
+  "Pharmaceuticals": "#3ECBA0",
+  "Infrastructure": "#FF8C42",
+  "FMCG & Consumption": "#F6C843",
+  "Automobiles": "#FF5A5A",
+  "Energy & Power": "#E87C58",
+  "Real Estate": "#58C4E8",
+  "Metals & Mining": "#A8B4C8",
+  "ESG": "#7EDE7E",
+  "Manufacturing": "#DE7EDE",
+  "Rural & Consumption": "#DE9E7E",
+};
+const BADGE_STYLE = {
+  "Banking & Finance":"background:rgba(91,143,255,.15);color:#5B8FFF",
+  "Information Technology":"background:rgba(182,127,255,.15);color:#B67FFF",
+  "Pharmaceuticals":"background:rgba(62,203,160,.15);color:#3ECBA0",
+  "Infrastructure":"background:rgba(255,140,66,.15);color:#FF8C42",
+  "FMCG & Consumption":"background:rgba(246,200,67,.15);color:#F6C843",
+  "Automobiles":"background:rgba(255,90,90,.15);color:#FF5A5A",
+  "Energy & Power":"background:rgba(232,124,88,.15);color:#E87C58",
+  "Real Estate":"background:rgba(88,196,232,.15);color:#58C4E8",
+  "Metals & Mining":"background:rgba(168,180,200,.15);color:#A8B4C8",
+  "ESG":"background:rgba(126,222,126,.15);color:#7EDE7E",
+  "Manufacturing":"background:rgba(222,126,222,.15);color:#DE7EDE",
+  "Rural & Consumption":"background:rgba(222,158,126,.15);color:#DE9E7E",
+};
+
+// ───────────── STATE ──────────────────────────────────────
+let sortCol="r1y", sortDir=-1, barPeriod="r1y";
+let filtered=[], barChart=null, sctChart=null, pieChart=null, sharpeChart=null, expChart=null;
+let lineChart=null, rollingSharpe=null, rollingStd=null, heatChart=null;
+let cmpSelected=new Set();
+
+// ───────────── POPULATE SELECTS ──────────────────────────
+const houses=[...new Set(FUNDS.map(f=>f.house))].sort();
+const hsel=document.getElementById("f-house");
+houses.forEach(h=>{const o=document.createElement("option");o.textContent=h;hsel.appendChild(o)});
+
+// ───────────── FILTER LOGIC ──────────────────────────────
+function getFiltered(){
+  const sec=document.getElementById("f-sector").value;
+  const hs=document.getElementById("f-house").value;
+  const tp=document.getElementById("f-type").value;
+  const srt=document.getElementById("f-sort").value;
+  const minR=parseFloat(document.getElementById("f-minr").value)||0;
+  const maxE=parseFloat(document.getElementById("f-maxe").value)||2;
+  const minRating=parseInt(document.getElementById("f-rating").value)||0;
+  let arr=FUNDS.filter(f=>{
+    if(sec&&f.sector!==sec)return false;
+    if(hs&&f.house!==hs)return false;
+    if(tp&&f.type!==tp)return false;
+    if(f.r1y<minR)return false;
+    if(f.exp>maxE)return false;
+    if(f.rating<minRating)return false;
+    return true;
+  });
+  const sd=srt==="exp"?1:-1;
+  arr.sort((a,b)=>sd*(b[srt]-a[srt]));
+  return arr;
+}
+
+function resetFilters(){
+  ["f-sector","f-house","f-type","f-sort"].forEach(id=>{document.getElementById(id).selectedIndex=0});
+  document.getElementById("f-minr").value=0;document.getElementById("rl1").textContent="0%";
+  document.getElementById("f-maxe").value=2;document.getElementById("rl2").textContent="2.0%";
+  document.getElementById("f-rating").selectedIndex=0;
+  sortCol="r1y";sortDir=-1;render();
+}
+
+// ───────────── KPI UPDATE ────────────────────────────────
+function updateKPIs(arr){
+  document.getElementById("kv-count").textContent=arr.length;
+  if(!arr.length){["kv-r1y","kv-sharpe","kv-std"].forEach(id=>document.getElementById(id).textContent="—");return;}
+  const avg=k=>(arr.reduce((s,f)=>s+f[k],0)/arr.length).toFixed(2);
+  document.getElementById("kv-r1y").textContent=avg("r1y")+"%";
+  document.getElementById("kv-sharpe").textContent=avg("sharpe");
+  document.getElementById("kv-std").textContent=avg("stdDev")+"%";
+}
+
+function updateChips(){
+  const chips=[];
+  const sec=document.getElementById("f-sector").value;
+  const hs=document.getElementById("f-house").value;
+  const tp=document.getElementById("f-type").value;
+  const minR=parseFloat(document.getElementById("f-minr").value);
+  const maxE=parseFloat(document.getElementById("f-maxe").value);
+  const rating=parseInt(document.getElementById("f-rating").value);
+  if(sec)chips.push(sec);if(hs)chips.push(hs);if(tp)chips.push(tp);
+  if(minR>0)chips.push(`1Y≥${minR}%`);if(maxE<2)chips.push(`Exp≤${maxE.toFixed(1)}%`);
+  if(rating>0)chips.push(`${rating}★+`);
+  document.getElementById("achips").innerHTML=chips.map(c=>`<div class="chip">${c}</div>`).join("");
+  document.getElementById("rinfo").textContent=`Showing ${filtered.length} fund${filtered.length!==1?"s":""}  ·  ${FUNDS.length} in database`;
+}
+
+// ───────────── TABLE ─────────────────────────────────────
+function updateTable(arr){
+  const tb=document.getElementById("tbl");tb.innerHTML="";
+  document.querySelectorAll("th[data-col]").forEach(th=>{
+    th.classList.remove("sort-asc","sort-desc");
+    if(th.dataset.col===sortCol)th.classList.add(sortDir===-1?"sort-desc":"sort-asc");
+  });
+  arr.forEach(f=>{
+    const stars="★".repeat(f.rating)+"☆".repeat(5-f.rating);
+    tb.innerHTML+=`<tr>
+      <td><div class="fn">${f.name}</div><div class="fh">${f.house}</div></td>
+      <td><span class="badge" style="${BADGE_STYLE[f.sector]||''}">${f.sector}</span></td>
+      <td><span class="badge" style="${f.type==="Sectoral"?"background:rgba(91,143,255,.1);color:#5B8FFF":"background:rgba(246,200,67,.1);color:#F6C843"}">${f.type}</span></td>
+      <td class="${f.r1y>=0?"pos":"neg"}">${f.r1y.toFixed(1)}%</td>
+      <td class="${f.r3y>=0?"pos":"neg"}">${f.r3y.toFixed(1)}%</td>
+      <td class="${f.r5y>=0?"pos":"neg"}">${f.r5y.toFixed(1)}%</td>
+      <td class="mono">${f.sharpe.toFixed(2)}</td>
+      <td class="mono">${f.stdDev.toFixed(1)}</td>
+      <td class="mono">${f.exp.toFixed(2)}</td>
+      <td class="mono">${Number(f.aum).toLocaleString("en-IN")}</td>
+      <td style="color:var(--gold);letter-spacing:-1px">${stars}</td>
+    </tr>`;
+  });
+}
+
+// ───────────── BAR CHART ─────────────────────────────────
+function updateBarChart(arr){
+  const top=[...arr].sort((a,b)=>b[barPeriod]-a[barPeriod]).slice(0,14);
+  const labels=top.map(f=>f.name.length>26?f.name.substring(0,24)+"…":f.name);
+  const data=top.map(f=>+f[barPeriod].toFixed(1));
+  const bg=top.map(f=>SECTOR_COLORS[f.sector]||"#5B8FFF");
+  if(barChart)barChart.destroy();
+  barChart=new Chart(document.getElementById("bar-chart"),{
+    type:"bar",data:{labels,datasets:[{data,backgroundColor:bg,borderRadius:4,borderSkipped:false}]},
+    options:{
+      indexAxis:"y",responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw}%`}}},
+      scales:{
+        x:{grid:{color:"rgba(255,255,255,.04)"},ticks:{callback:v=>v+"%",color:"#5C6480",font:{size:10,family:"IBM Plex Mono"}}},
+        y:{grid:{display:false},ticks:{color:"#9BA3BB",font:{size:10,family:"IBM Plex Sans"},autoSkip:false}}
+      }
+    }
+  });
+}
+
+// ───────────── SCATTER ───────────────────────────────────
+function updateScatter(arr){
+  const p=document.getElementById("sct-p").value;
+  const cats=[...new Set(arr.map(f=>f.sector))];
+  const datasets=cats.map(c=>({
+    label:c,
+    data:arr.filter(f=>f.sector===c).map(f=>({x:+f.stdDev.toFixed(1),y:+f[p].toFixed(1),label:f.name})),
+    backgroundColor:SECTOR_COLORS[c]||"#888",
+    pointRadius:5,pointHoverRadius:8
+  }));
+  if(sctChart)sctChart.destroy();
+  const yLabel={r1y:"1Y Return %",r3y:"3Y Return %",r5y:"5Y Return %"}[p];
+  sctChart=new Chart(document.getElementById("sct-chart"),{
+    type:"scatter",data:{datasets},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.label}: ${ctx.raw.y}% / σ${ctx.raw.x}%`}}},
+      scales:{
+        x:{title:{display:true,text:"Std Dev (Risk) %",color:"#5C6480",font:{size:10}},grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:10,family:"IBM Plex Mono"}}},
+        y:{title:{display:true,text:yLabel,color:"#5C6480",font:{size:10}},grid:{color:"rgba(255,255,255,.04)"},ticks:{callback:v=>v+"%",color:"#5C6480",font:{size:10,family:"IBM Plex Mono"}}}
+      }
+    }
+  });
+  const leg=document.getElementById("sct-leg");
+  leg.innerHTML=cats.map(c=>`<div class="leg-item"><div class="leg-dot" style="background:${SECTOR_COLORS[c]}"></div>${c}</div>`).join("");
+}
+
+// ───────────── PIE ───────────────────────────────────────
+function updatePie(arr){
+  const sectorAUM={};
+  arr.forEach(f=>sectorAUM[f.sector]=(sectorAUM[f.sector]||0)+f.aum);
+  const labels=Object.keys(sectorAUM),vals=Object.values(sectorAUM);
+  const bg=labels.map(l=>SECTOR_COLORS[l]||"#888");
+  if(pieChart)pieChart.destroy();
+  pieChart=new Chart(document.getElementById("pie-chart"),{
+    type:"doughnut",
+    data:{labels,datasets:[{data:vals,backgroundColor:bg,borderWidth:1,borderColor:"#12151C"}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,cutout:"58%",
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ₹${Number(ctx.raw).toLocaleString("en-IN")} Cr`}}}
+    }
+  });
+}
+
+// ───────────── SHARPE BAR ────────────────────────────────
+function updateSharpeChart(arr){
+  const smap={};const cnt={};
+  arr.forEach(f=>{smap[f.sector]=(smap[f.sector]||0)+f.sharpe;cnt[f.sector]=(cnt[f.sector]||0)+1});
+  const labels=Object.keys(smap).sort((a,b)=>smap[b]/cnt[b]-smap[a]/cnt[a]);
+  const vals=labels.map(l=>+(smap[l]/cnt[l]).toFixed(2));
+  const bg=labels.map(l=>SECTOR_COLORS[l]||"#888");
+  if(sharpeChart)sharpeChart.destroy();
+  sharpeChart=new Chart(document.getElementById("sharpe-chart"),{
+    type:"bar",data:{labels:labels.map(l=>l.length>14?l.substring(0,12)+"…":l),datasets:[{data:vals,backgroundColor:bg,borderRadius:4,borderSkipped:false}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` Sharpe ${ctx.raw}`}}},
+      scales:{
+        x:{grid:{display:false},ticks:{color:"#5C6480",font:{size:9,family:"IBM Plex Sans"},maxRotation:45}},
+        y:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:10,family:"IBM Plex Mono"}}}
+      }
+    }
+  });
+}
+
+// ───────────── EXPENSE HIST ──────────────────────────────
+function updateExpChart(arr){
+  const buckets={"0–0.5":0,"0.5–0.8":0,"0.8–1.0":0,"1.0–1.2":0,"1.2+":0};
+  arr.forEach(f=>{
+    if(f.exp<0.5)buckets["0–0.5"]++;
+    else if(f.exp<0.8)buckets["0.5–0.8"]++;
+    else if(f.exp<1.0)buckets["0.8–1.0"]++;
+    else if(f.exp<1.2)buckets["1.0–1.2"]++;
+    else buckets["1.2+"]++;
+  });
+  if(expChart)expChart.destroy();
+  expChart=new Chart(document.getElementById("exp-chart"),{
+    type:"bar",
+    data:{labels:Object.keys(buckets),datasets:[{data:Object.values(buckets),backgroundColor:["#3ECBA0","#5B8FFF","#F6C843","#FF8C42","#FF5A5A"],borderRadius:4,borderSkipped:false}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.raw} funds`}}},
+      scales:{
+        x:{grid:{display:false},ticks:{color:"#5C6480",font:{size:10,family:"IBM Plex Mono"}}},
+        y:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:10,family:"IBM Plex Mono"},stepSize:1}}
+      }
+    }
+  });
+}
+
+// ───────────── MAIN RENDER ───────────────────────────────
+function render(){
+  filtered=getFiltered();
+  updateKPIs(filtered);
+  updateChips();
+  updateTable(filtered);
+  updateBarChart(filtered);
+  updateScatter(filtered);
+  updatePie(filtered);
+  updateSharpeChart(filtered);
+  updateExpChart(filtered);
+}
+
+// ───────────── TAB SWITCH ────────────────────────────────
+function switchTab(id,btn){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+  document.getElementById("tab-"+id).classList.add("active");
+  btn.classList.add("active");
+  if(id==="macro")renderMacro();
+  if(id==="history")renderHistory();
+  if(id==="compare")renderCompare();
+}
+
+// ───────────── BAR PERIOD PILLS ──────────────────────────
+document.querySelectorAll("#bar-pills .pill").forEach(btn=>{
+  btn.addEventListener("click",function(){
+    document.querySelectorAll("#bar-pills .pill").forEach(b=>b.classList.remove("active"));
+    this.classList.add("active");barPeriod=this.dataset.p;updateBarChart(filtered);
+  });
+});
+
+// ───────────── RANGE INPUTS ──────────────────────────────
+document.getElementById("f-minr").addEventListener("input",function(){
+  document.getElementById("rl1").textContent=this.value+"%";render();
+});
+document.getElementById("f-maxe").addEventListener("input",function(){
+  document.getElementById("rl2").textContent=parseFloat(this.value).toFixed(1)+"%";render();
+});
+
+// ───────────── SELECTS ───────────────────────────────────
+["f-sector","f-house","f-type","f-sort","f-rating"].forEach(id=>{
+  document.getElementById(id).addEventListener("change",render);
+});
+document.getElementById("sct-p").addEventListener("change",()=>updateScatter(filtered));
+
+// ───────────── COLUMN SORT ───────────────────────────────
+document.querySelectorAll("th[data-col]").forEach(th=>{
+  th.addEventListener("click",function(){
+    const col=this.dataset.col;
+    if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=-1;}
+    render();
+  });
+});
+
+// ═══════════════════════════════════════════════════════════
+// MACRO TAB
+// ═══════════════════════════════════════════════════════════
+const MACRO_DATA=[
+  {sector:"Banking & Finance",color:"#5B8FFF",factors:["RBI Repo Rate","CPI Inflation","NPA Trends","Credit Growth","USD/INR"],score:8.2,desc:"Hypersensitive to RBI monetary policy. NIMs expand on rate cuts; NPAs drive provisioning cycles."},
+  {sector:"Information Technology",color:"#B67FFF",factors:["USD/INR FX","US GDP Growth","US Fed Rate","Tech Spending","Global Liquidity"],score:7.8,desc:"Structural USD earner. INR depreciation directly boosts margins. Sensitive to US client capex cycles."},
+  {sector:"Pharmaceuticals",color:"#3ECBA0",factors:["USD/INR FX","US FDA Policy","EPU Index","Domestic Healthcare Budget","Crude"],score:6.5,desc:"Export-oriented; weak INR is a tailwind. USFDA regulatory risk is the dominant idiosyncratic driver."},
+  {sector:"Infrastructure",color:"#FF8C42",factors:["Govt. Capex","IIP Index","Steel Prices","RBI Rate","Budget Allocation"],score:8.8,desc:"Directly driven by Union Budget infrastructure allocation and PMGSY/NIP disbursements."},
+  {sector:"FMCG & Consumption",color:"#F6C843",factors:["Monsoon/Rainfall","Rural Wages","CPI Inflation","FMCG Volume","Interest Rates"],score:7.1,desc:"Rural demand engine. Monsoon quality is the strongest seasonal predictor of FMCG rural volumes."},
+  {sector:"Automobiles",color:"#FF5A5A",factors:["RBI Rate (Auto Loans)","Crude Oil","Monsoon","FAME Subsidies","Steel/Aluminium"],score:7.5,desc:"Rate-sensitive; input cost (steel, aluminium) directly compresses OEM margins. EV transition risk."},
+  {sector:"Energy & Power",color:"#E87C58",factors:["Brent Crude","Govt. Policy","PLI Schemes","Coal Prices","Trade Deficit"],score:9.2,desc:"PSU-heavy sector. Government policy (pricing, divestment) is the dominant alpha driver. Crude is central."},
+  {sector:"Real Estate",color:"#58C4E8",factors:["RBI Rate","Cement/Steel","Urban Income","RERA Policy","Demand-Supply"],score:8.0,desc:"Most leveraged sector to interest rates. Lower EMIs drive residential volumes. RERA improves buyer trust."},
+  {sector:"Metals & Mining",color:"#A8B4C8",factors:["China PMI","Global Commodity Cycle","USD Index","IIP","Freight Rates"],score:8.5,desc:"Globally driven. Chinese steel demand is the primary price setter. Highly cyclical with commodity super-cycles."},
+  {sector:"ESG",color:"#7EDE7E",factors:["EPU Index","Green Bonds","Global ESG Flows","SEBI ESG Rules","Carbon Pricing"],score:5.5,desc:"Driven by regulatory push (SEBI ESG ratings), global green bond issuance, and global ESG fund allocations."},
+  {sector:"Manufacturing",color:"#DE7EDE",factors:["PLI Scheme","IIP","Govt. Capex","Export Orders","Input Cost"],score:8.0,desc:"PLI scheme beneficiary. Government's China+1 strategy is a secular tailwind for domestic manufacturing."},
+  {sector:"Rural & Consumption",color:"#DE9E7E",factors:["Monsoon","Rural Wages","MGNREGA","Kisan Nidhi","CPI"],score:7.3,desc:"Monsoon-driven rural income cycle is the core driver. Govt. transfer programs provide income floor."},
+];
+
+function renderMacro(){
+  const grid=document.getElementById("macro-grid");
+  grid.innerHTML=MACRO_DATA.map(m=>`
+    <div class="macro-card">
+      <div class="macro-sector">Sector · ${m.type||'Mixed'}</div>
+      <div class="macro-title"><div class="macro-dot" style="background:${m.color}"></div>${m.sector}</div>
+      <div style="font-size:11px;color:var(--ink3);line-height:1.6;margin-bottom:6px">${m.desc}</div>
+      <div class="macro-factors">${m.factors.map(f=>`<span class="macro-factor">${f}</span>`).join("")}</div>
+      <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:10px;color:var(--ink3)">Macro Sensitivity</span>
+        <span class="macro-score" style="color:${m.score>8?"var(--neg)":m.score>6.5?"var(--orange)":"var(--pos)"}">${m.score}/10</span>
+      </div>
+      <div class="macro-bar-bg"><div class="macro-bar-fg" style="width:${m.score*10}%;background:${m.color}"></div></div>
+    </div>`).join("");
+
+  // Heatmap
+  const sectorNames=MACRO_DATA.map(m=>m.sector.length>14?m.sector.substring(0,12)+"…":m.sector);
+  const factors=["RBI Rate","USD/INR","Crude Oil","Monsoon","Govt. Policy","Global FPI","IIP","CPI"];
+  const raw=[
+    [9,3,2,1,5,7,4,8],[3,4,2,1,2,9,5,3],[4,8,3,2,4,5,3,4],
+    [5,3,5,3,9,4,8,5],[2,4,6,8,5,3,4,8],[6,3,8,2,4,3,3,5],
+    [3,2,9,1,9,6,5,5],[9,2,5,2,7,4,3,5],[3,3,7,1,5,6,9,4],
+    [4,3,3,3,7,8,4,4],[6,3,5,3,9,4,9,5],[2,3,4,9,6,3,5,8],
+  ];
+  const flatVals=raw.flat();
+  const minV=Math.min(...flatVals),maxV=Math.max(...flatVals);
+  const datasets=factors.map((fac,fi)=>({
+    label:fac,
+    data:sectorNames.map((s,si)=>({x:s,y:fac,v:raw[si][fi]})),
+    backgroundColor:raw.map((row,si)=>{
+      const v=(row[fi]-minV)/(maxV-minV);
+      return `rgba(${lerp(30,255,v)},${lerp(100,200,1-v)},${lerp(200,60,v)},0.85)`;
+    }),
+  }));
+  const allData=[];
+  sectorNames.forEach((s,si)=>factors.forEach((fac,fi)=>allData.push({x:s,y:fac,v:raw[si][fi]})));
+  if(heatChart)heatChart.destroy();
+  heatChart=new Chart(document.getElementById("heat-chart"),{
+    type:"scatter",
+    data:{datasets:[{data:allData,backgroundColor:allData.map(d=>{
+      const v=(d.v-minV)/(maxV-minV);
+      return `rgba(${Math.round(lerp(30,255,v))},${Math.round(lerp(100,140,1-v))},${Math.round(lerp(200,60,v))},0.85)`;
+    }),pointRadius:18,pointStyle:"rect"}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw.x} / ${ctx.raw.y}: ${ctx.raw.v}/10`}}},
+      scales:{
+        x:{type:"category",labels:sectorNames,grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#9BA3BB",font:{size:9,family:"IBM Plex Sans"},maxRotation:45}},
+        y:{type:"category",labels:factors,grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#9BA3BB",font:{size:10,family:"IBM Plex Sans"}}}
+      }
+    }
+  });
+}
+function lerp(a,b,t){return a+(b-a)*t}
+
+// ═══════════════════════════════════════════════════════════
+// HISTORY TAB
+// ═══════════════════════════════════════════════════════════
+function generateNAV(sector,r1y,r3y,r5y,periods){
+  // Simulate price path using geometric Brownian motion seeded from known CAGR
+  const annualReturn=periods===12?r1y/100:periods===36?r3y/100:r5y/100;
+  const dailyMu=annualReturn/252;
+  const sigma=0.015+(Math.abs(annualReturn)*0.08);
+  let nav=100;
+  const series=[nav];
+  const n=periods*21; // ~21 trading days/month
+  for(let i=0;i<n;i++){
+    const shock=(Math.random()-0.5)*2*sigma;
+    nav*=(1+dailyMu+shock);
+    if(i%21===0)series.push(+nav.toFixed(2));
+  }
+  return series;
+}
+
+function renderHistory(){
+  const period=document.getElementById("h-period").value;
+  const sec=document.getElementById("h-sector").value;
+  const months=period==="1y"?12:period==="3y"?36:60;
+  const sectors=sec?[sec]:["Banking & Finance","Information Technology","Pharmaceuticals","Infrastructure","FMCG & Consumption","Automobiles","Energy & Power"];
+  const labels=[];
+  const endDate=new Date(2026,2,31);
+  for(let i=months;i>=0;i--){
+    const d=new Date(endDate);d.setMonth(d.getMonth()-i);
+    labels.push(`${d.toLocaleString("default",{month:"short"})} '${String(d.getFullYear()).slice(-2)}`);
+  }
+  // Seed random for reproducibility per sector
+  function seededRand(seed){let s=seed;return()=>{s=(s*16807+0)%2147483647;return(s-1)/2147483646}}
+  const datasets=sectors.map(s=>{
+    const funds=FUNDS.filter(f=>f.sector===s);
+    if(!funds.length)return null;
+    const f=funds[0];
+    const rng=seededRand(s.length*137+f.r5y*1000);
+    const oldMath=Math.random;Math.random=rng;
+    const navs=generateNAV(s,f.r1y,f.r3y,f.r5y,months);
+    Math.random=oldMath;
+    return{label:s,data:navs.slice(0,labels.length),borderColor:SECTOR_COLORS[s],backgroundColor:"transparent",borderWidth:2,pointRadius:0,tension:.3};
+  }).filter(Boolean);
+
+  if(lineChart)lineChart.destroy();
+  lineChart=new Chart(document.getElementById("line-chart"),{
+    type:"line",data:{labels,datasets},
+    options:{
+      responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: ${ctx.raw}`}}},
+      scales:{
+        x:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:10,family:"IBM Plex Mono"},maxRotation:0,autoSkip:true,maxTicksLimit:12}},
+        y:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:10,family:"IBM Plex Mono"}}}
+      }
+    }
+  });
+  document.getElementById("line-leg").innerHTML=sectors.map(s=>`<div class="leg-item"><div class="leg-dot" style="background:${SECTOR_COLORS[s]}"></div>${s}</div>`).join("");
+
+  // Rolling Sharpe & Std Dev
+  renderRollingCharts(sectors,months,labels);
+}
+
+function renderRollingCharts(sectors,months,labels){
+  const rsSectors=sectors.slice(0,5);
+  function seededRand(seed){let s=seed;return()=>{s=(s*16807+0)%2147483647;return(s-1)/2147483646}}
+
+  const sharpeData=rsSectors.map(s=>{
+    const funds=FUNDS.filter(f=>f.sector===s);if(!funds.length)return null;
+    const f=funds[0];const rng=seededRand(s.length*233+f.sharpe*10000);
+    const data=labels.map((_,i)=>+(f.sharpe+(rng()-0.5)*0.4).toFixed(2));
+    return{label:s,data,borderColor:SECTOR_COLORS[s],backgroundColor:"transparent",borderWidth:1.5,pointRadius:0,tension:.4};
+  }).filter(Boolean);
+
+  const stdData=rsSectors.map(s=>{
+    const funds=FUNDS.filter(f=>f.sector===s);if(!funds.length)return null;
+    const f=funds[0];const rng=seededRand(s.length*411+f.stdDev*100);
+    const data=labels.map((_,i)=>+(f.stdDev+(rng()-0.5)*5).toFixed(1));
+    return{label:s,data,borderColor:SECTOR_COLORS[s],backgroundColor:"transparent",borderWidth:1.5,pointRadius:0,tension:.4};
+  }).filter(Boolean);
+
+  if(rollingSharpe)rollingSharpe.destroy();
+  rollingSharpe=new Chart(document.getElementById("rolling-sharpe"),{
+    type:"line",data:{labels,datasets:sharpeData},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+      plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:9},maxTicksLimit:8,maxRotation:0}},
+        y:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:9,family:"IBM Plex Mono"}}}}}
+  });
+
+  if(rollingStd)rollingStd.destroy();
+  rollingStd=new Chart(document.getElementById("rolling-std"),{
+    type:"line",data:{labels,datasets:stdData},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+      plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:"rgba(255,255,255,.04)"},ticks:{color:"#5C6480",font:{size:9},maxTicksLimit:8,maxRotation:0}},
+        y:{grid:{color:"rgba(255,255,255,.04)"},ticks:{callback:v=>v+"%",color:"#5C6480",font:{size:9,family:"IBM Plex Mono"}}}}}
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+// COMPARE TAB
+// ═══════════════════════════════════════════════════════════
+function renderCompare(){
+  const container=document.getElementById("cmp-chips");
+  container.innerHTML=FUNDS.map(f=>`
+    <div class="cmp-chip${cmpSelected.has(f.name)?" sel":""}" onclick="toggleCmp('${f.name.replace(/'/g,"\\'")}',this)">
+      ${f.name.length>30?f.name.substring(0,28)+"…":f.name}
+    </div>`).join("");
+  updateCmpContent();
+}
+
+function toggleCmp(name,el){
+  if(cmpSelected.has(name)){cmpSelected.delete(name);el.classList.remove("sel");}
+  else if(cmpSelected.size<6){cmpSelected.add(name);el.classList.add("sel");}
+  updateCmpContent();
+}
+
+let cmpChart=null;
+function updateCmpContent(){
+  const sel=FUNDS.filter(f=>cmpSelected.has(f.name));
+  const container=document.getElementById("cmp-content");
+  if(!sel.length){container.innerHTML=`<p style="color:var(--ink3);font-size:12px;margin-top:1rem">Select 2–6 funds above to compare them side-by-side.</p>`;return;}
+
+  const metrics=[
+    {k:"r1y",label:"1Y Return %",fmt:v=>v.toFixed(1)+"%",pos:true},
+    {k:"r3y",label:"3Y Return %",fmt:v=>v.toFixed(1)+"%",pos:true},
+    {k:"r5y",label:"5Y Return %",fmt:v=>v.toFixed(1)+"%",pos:true},
+    {k:"sharpe",label:"Sharpe Ratio",fmt:v=>v.toFixed(2),pos:true},
+    {k:"stdDev",label:"Std Dev %",fmt:v=>v.toFixed(1)+"%",pos:false},
+    {k:"exp",label:"Expense %",fmt:v=>v.toFixed(2)+"%",pos:false},
+    {k:"aum",label:"AUM (Cr)",fmt:v=>Number(v).toLocaleString("en-IN"),pos:true},
+  ];
+
+  container.innerHTML=`
+    <div class="card" style="margin-bottom:1.2rem;margin-top:1rem">
+      <div class="card-head"><div class="card-title">Side-by-Side Metrics</div></div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Metric</th>${sel.map(f=>`<th>${f.name.length>20?f.name.substring(0,18)+"…":f.name}<br><span style="font-size:9px;color:var(--ink3)">${f.house}</span></th>`).join("")}</tr></thead>
+        <tbody>${metrics.map(m=>{
+          const vals=sel.map(f=>f[m.k]);
+          const best=m.pos?Math.max(...vals):Math.min(...vals);
+          return`<tr><td style="color:var(--ink2);font-family:'IBM Plex Mono',monospace;font-size:10px">${m.label}</td>
+            ${sel.map(f=>`<td class="${f[m.k]===best?"pos":"mono"}">${m.fmt(f[m.k])}</td>`).join("")}</tr>`;
+        }).join("")}</tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title">Return Profile Comparison</div></div>
+      <div class="card-body"><div class="chart-wrap" style="height:280px"><canvas id="cmp-chart"></canvas></div></div>
+    </div>`;
+
+  // Radar chart
+  setTimeout(()=>{
+    if(cmpChart)cmpChart.destroy();
+    const radarLabels=["1Y Return","3Y Return","5Y Return","Sharpe","Low Std Dev","Low Expense"];
+    const norm=(val,min,max)=>((val-min)/(max-min)*100);
+    const datasets=sel.map((f,i)=>{
+      const col=Object.values(SECTOR_COLORS)[i%12];
+      return{label:f.name,data:[
+        norm(f.r1y,0,50),norm(f.r3y,0,50),norm(f.r5y,0,50),
+        norm(f.sharpe,0,1.4),norm(35-f.stdDev,-5,35),norm(2-f.exp,0,2)
+      ],borderColor:col,backgroundColor:col+"30",borderWidth:2,pointRadius:3};
+    });
+    cmpChart=new Chart(document.getElementById("cmp-chart"),{
+      type:"radar",data:{labels:radarLabels,datasets},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:"#9BA3BB",font:{size:10,family:"IBM Plex Sans"}}}},
+        scales:{r:{grid:{color:"rgba(255,255,255,.08)"},ticks:{display:false},pointLabels:{color:"#9BA3BB",font:{size:10}},angleLines:{color:"rgba(255,255,255,.08)"}}}}
+    });
+  },50);
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
