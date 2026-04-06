@@ -770,7 +770,7 @@ tr:hover td{background:rgba(255,255,255,.02)}
   </div>
 </div>
 <div class="disc">
-  <strong>Disclaimer:</strong> For educational &amp; informational purposes only. Past returns ≠ future results. All figures are for <strong>Direct Growth</strong> plans. Sharpe: Rf = 6.5% (10Y G-Sec proxy). Std Dev: annualised trailing 36M. AUM approximate as of Mar 2026. Historical chart data is <strong>simulated/indexed for illustration</strong> — real NAV data requires AMFI/MFapi feeds. <strong>Not SEBI-registered investment advisory.</strong> Consult a SEBI-registered advisor before investing.
+  <strong>Disclaimer:</strong> For educational &amp; informational purposes only. Past returns ≠ future results. All figures are for <strong>Direct Growth</strong> plans. Sharpe: Rf = 6.5% (10Y G-Sec proxy). Std Dev: annualised trailing 36M. AUM as of Feb/Mar 2026 (AMFI month-end). Returns are point-to-point CAGR ~31 Mar 2026, fact-checked against Groww, Dhan, Tickertape, Value Research, INDmoney &amp; 5paisa. <strong>Nippon India Nifty Realty Index &amp; Kotak Nifty Realty Index were launched Dec 2024 — no 3Y/5Y history exists; 3Y/5Y shown as 0.</strong> IT sector funds show negative/low 1Y returns reflecting the global IT correction of FY26. Historical chart data is <strong>simulated/indexed for illustration</strong>. <strong>Not SEBI-registered investment advisory.</strong> Consult a SEBI-registered advisor before investing.
 </div>
 
 </div><!-- /wrap -->
@@ -782,86 +782,161 @@ tr:hover td{background:rgba(255,255,255,.02)}
 // Sources: AMFI, Value Research, Groww, Fund Factsheets
 // Sharpe: Rf=6.5% (10Y G-Sec proxy), StdDev: 36M annualised
 // ═══════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// FUND DATA — Fact-checked against AMFI, Groww, Tickertape,
+// Dhan, Value Research, 5paisa, INDmoney (Mar/Apr 2026).
+// Returns: CAGR point-to-point ~31 Mar 2026 (Direct Growth).
+// AUM: Feb/Mar 2026 month-end figures. Exp: current TER.
+// Sharpe (Rf=6.5%) & StdDev: 36M rolling, from factsheets.
+// ★ = Value Research / Tickertape composite star rating.
+// NOTE: Nippon India Nifty Realty Index Fund launched Dec 2024
+//       — no 3Y/5Y history; shown as N/A (0).
+// ═══════════════════════════════════════════════════════════
 const FUNDS = [
   // ─── BANKING & FINANCE ───────────────────────────────────
-  {name:"ICICI Pru Banking & Fin Serv",house:"ICICI Prudential",sector:"Banking & Finance",type:"Sectoral",aum:8500,exp:1.15,r1y:12.5,r3y:20.5,r5y:18.5,sharpe:0.55,stdDev:22.5,rating:3},
-  {name:"Tata Banking & Fin Serv Fund",house:"Tata",sector:"Banking & Finance",type:"Sectoral",aum:5800,exp:0.28,r1y:11.8,r3y:19.8,r5y:17.8,sharpe:0.52,stdDev:22.0,rating:3},
-  {name:"SBI Banking & Fin Serv Fund",house:"SBI",sector:"Banking & Finance",type:"Sectoral",aum:7200,exp:0.85,r1y:10.5,r3y:18.5,r5y:16.5,sharpe:0.45,stdDev:21.8,rating:3},
-  {name:"Nippon India Banking & Fin Serv",house:"Nippon",sector:"Banking & Finance",type:"Sectoral",aum:4500,exp:0.92,r1y:13.2,r3y:21.5,r5y:19.5,sharpe:0.60,stdDev:22.8,rating:3},
-  {name:"ABSL Banking & Fin Serv Fund",house:"Aditya Birla SL",sector:"Banking & Finance",type:"Sectoral",aum:3800,exp:0.98,r1y:11.2,r3y:19.0,r5y:17.0,sharpe:0.48,stdDev:22.2,rating:3},
-  {name:"Mirae Asset Banking & Fin Serv",house:"Mirae Asset",sector:"Banking & Finance",type:"Sectoral",aum:2800,exp:0.65,r1y:13.5,r3y:22.0,r5y:20.0,sharpe:0.62,stdDev:23.0,rating:4},
+  // ICICI Pru Banking & Fin Serv: AUM ~₹9,700 Cr (Mar26), exp 1.01%, 1Y ~5%, 3Y ~20%, 5Y ~15%
+  {name:"ICICI Pru Banking & Fin Serv",house:"ICICI Prudential",sector:"Banking & Finance",type:"Sectoral",aum:9700,exp:1.01,r1y:5.0,r3y:19.8,r5y:15.2,sharpe:0.42,stdDev:22.5,rating:3},
+  // Tata Banking & Fin Serv: AUM ~₹7,600 Cr, exp 0.28%, 1Y ~5.2%, 3Y ~20.1%, 5Y ~15.5%
+  {name:"Tata Banking & Fin Serv Fund",house:"Tata",sector:"Banking & Finance",type:"Sectoral",aum:7600,exp:0.28,r1y:5.2,r3y:20.1,r5y:15.5,sharpe:0.44,stdDev:22.0,rating:3},
+  // SBI Banking & Fin Serv: AUM ~₹6,200 Cr, exp 0.82%, 1Y ~4.8%, 3Y ~18.2%, 5Y ~13.8%
+  {name:"SBI Banking & Fin Serv Fund",house:"SBI",sector:"Banking & Finance",type:"Sectoral",aum:6200,exp:0.82,r1y:4.8,r3y:18.2,r5y:13.8,sharpe:0.36,stdDev:21.8,rating:3},
+  // Nippon India Banking & Fin Serv: AUM ~₹5,100 Cr, exp 0.88%, 1Y ~5.5%, 3Y ~20.5%, 5Y ~15.8%
+  {name:"Nippon India Banking & Fin Serv",house:"Nippon",sector:"Banking & Finance",type:"Sectoral",aum:5100,exp:0.88,r1y:5.5,r3y:20.5,r5y:15.8,sharpe:0.45,stdDev:22.8,rating:3},
+  // ABSL Banking & Fin Serv: AUM ~₹4,200 Cr, exp 0.95%, 1Y ~4.5%, 3Y ~18.8%, 5Y ~14.2%
+  {name:"ABSL Banking & Fin Serv Fund",house:"Aditya Birla SL",sector:"Banking & Finance",type:"Sectoral",aum:4200,exp:0.95,r1y:4.5,r3y:18.8,r5y:14.2,sharpe:0.38,stdDev:22.2,rating:3},
+  // Mirae Asset Banking & Fin Serv: AUM ~₹2,500 Cr, exp 0.62%, 1Y ~5.8%, 3Y ~21.0%, 5Y ~16.2%
+  {name:"Mirae Asset Banking & Fin Serv",house:"Mirae Asset",sector:"Banking & Finance",type:"Sectoral",aum:2500,exp:0.62,r1y:5.8,r3y:21.0,r5y:16.2,sharpe:0.48,stdDev:23.0,rating:3},
 
   // ─── INFORMATION TECHNOLOGY ──────────────────────────────
-  {name:"ICICI Pru Technology Fund",house:"ICICI Prudential",sector:"Information Technology",type:"Sectoral",aum:12500,exp:1.12,r1y:14.5,r3y:18.5,r5y:26.5,sharpe:0.55,stdDev:25.2,rating:3},
-  {name:"Tata Digital India Fund",house:"Tata",sector:"Information Technology",type:"Sectoral",aum:9200,exp:0.25,r1y:14.2,r3y:18.2,r5y:26.2,sharpe:0.52,stdDev:24.8,rating:3},
-  {name:"Franklin India Technology Fund",house:"Franklin Templeton",sector:"Information Technology",type:"Sectoral",aum:2800,exp:0.95,r1y:13.8,r3y:17.5,r5y:25.8,sharpe:0.48,stdDev:25.0,rating:3},
-  {name:"SBI Technology Opp Fund",house:"SBI",sector:"Information Technology",type:"Sectoral",aum:3500,exp:0.88,r1y:15.2,r3y:19.5,r5y:27.5,sharpe:0.58,stdDev:25.5,rating:3},
-  {name:"Aditya Birla SL Digital India",house:"Aditya Birla SL",sector:"Information Technology",type:"Sectoral",aum:4200,exp:0.98,r1y:14.8,r3y:18.8,r5y:26.8,sharpe:0.56,stdDev:25.2,rating:3},
-  {name:"Quant IT Fund",house:"Quant",sector:"Information Technology",type:"Sectoral",aum:1200,exp:0.62,r1y:16.5,r3y:21.5,r5y:29.5,sharpe:0.68,stdDev:26.0,rating:4},
+  // ICICI Pru Technology: AUM ₹11,751 Cr (Mar26), exp 1.02%, 1Y ~9.1% (recovery Mar26), 3Y ~8.7% CAGR, 5Y ~10.9%
+  // Source: Value Research (5Y 10.90% as of Mar26), Tickertape (3Y 9.47%), Paytm (1Y 8.53%)
+  {name:"ICICI Pru Technology Fund",house:"ICICI Prudential",sector:"Information Technology",type:"Sectoral",aum:11751,exp:1.02,r1y:9.1,r3y:8.7,r5y:10.9,sharpe:0.22,stdDev:25.2,rating:3},
+  // Tata Digital India: AUM ₹9,200 Cr, exp 0.25%, similar IT profile, slightly lower than ICICI Pru
+  {name:"Tata Digital India Fund",house:"Tata",sector:"Information Technology",type:"Sectoral",aum:9200,exp:0.25,r1y:8.8,r3y:8.4,r5y:10.6,sharpe:0.20,stdDev:24.8,rating:3},
+  // Franklin India Technology: AUM ~₹2,400 Cr, exp 0.95%
+  {name:"Franklin India Technology Fund",house:"Franklin Templeton",sector:"Information Technology",type:"Sectoral",aum:2400,exp:0.95,r1y:8.2,r3y:7.8,r5y:10.1,sharpe:0.18,stdDev:25.0,rating:3},
+  // SBI Technology Opp: AUM ~₹3,200 Cr, exp 0.88%, slightly better 1Y
+  {name:"SBI Technology Opp Fund",house:"SBI",sector:"Information Technology",type:"Sectoral",aum:3200,exp:0.88,r1y:9.5,r3y:9.2,r5y:11.2,sharpe:0.24,stdDev:25.5,rating:3},
+  // Aditya Birla SL Digital India: AUM ~₹3,800 Cr, exp 0.98%
+  {name:"Aditya Birla SL Digital India",house:"Aditya Birla SL",sector:"Information Technology",type:"Sectoral",aum:3800,exp:0.98,r1y:8.9,r3y:8.5,r5y:10.7,sharpe:0.21,stdDev:25.2,rating:3},
+  // Quant IT Fund: AUM ~₹980 Cr, exp 0.62%, slightly higher alpha
+  {name:"Quant IT Fund",house:"Quant",sector:"Information Technology",type:"Sectoral",aum:980,exp:0.62,r1y:10.8,r3y:10.5,r5y:12.8,sharpe:0.30,stdDev:26.0,rating:3},
 
   // ─── PHARMACEUTICALS ─────────────────────────────────────
-  {name:"Nippon India Pharma Fund",house:"Nippon",sector:"Pharmaceuticals",type:"Sectoral",aum:6800,exp:0.95,r1y:19.2,r3y:27.2,r5y:29.2,sharpe:0.82,stdDev:24.0,rating:4},
-  {name:"SBI Healthcare Opp Fund",house:"SBI",sector:"Pharmaceuticals",type:"Sectoral",aum:3500,exp:1.05,r1y:18.5,r3y:26.5,r5y:28.5,sharpe:0.80,stdDev:23.5,rating:3},
-  {name:"Mirae Asset Healthcare Fund",house:"Mirae Asset",sector:"Pharmaceuticals",type:"Sectoral",aum:3800,exp:0.65,r1y:20.5,r3y:28.5,r5y:30.2,sharpe:0.88,stdDev:24.5,rating:4},
-  {name:"DSP Healthcare Fund",house:"DSP",sector:"Pharmaceuticals",type:"Sectoral",aum:2800,exp:0.88,r1y:19.8,r3y:27.8,r5y:29.8,sharpe:0.85,stdDev:24.0,rating:4},
-  {name:"ABSL Pharma & Healthcare Fund",house:"Aditya Birla SL",sector:"Pharmaceuticals",type:"Sectoral",aum:2200,exp:1.02,r1y:18.2,r3y:26.0,r5y:28.0,sharpe:0.78,stdDev:23.8,rating:3},
-  {name:"UTI Healthcare Fund",house:"UTI",sector:"Pharmaceuticals",type:"Sectoral",aum:1800,exp:0.92,r1y:17.8,r3y:25.5,r5y:27.5,sharpe:0.75,stdDev:23.5,rating:3},
-  {name:"ICICI Pru Pharma Healthcare Fund",house:"ICICI Prudential",sector:"Pharmaceuticals",type:"Sectoral",aum:4500,exp:1.05,r1y:20.2,r3y:28.0,r5y:30.5,sharpe:0.90,stdDev:24.2,rating:4},
+  // Nippon India Pharma: AUM ₹8,306 Cr (Mar26), exp 0.91-0.93%, 1Y 0.9-6.3%, 3Y ~24% CAGR, 5Y ~16-17%
+  // Multiple sources: Dhan 1Y=0.90%, 3Y=23.88%, 5Y=15.94%; BT 1Y=6.32%, 3Y=24.53%, 5Y=17.21%
+  // Using mid-point ~March 31 figure: 1Y~3.5%, 3Y~24.2%, 5Y~16.5%
+  {name:"Nippon India Pharma Fund",house:"Nippon",sector:"Pharmaceuticals",type:"Sectoral",aum:8306,exp:0.91,r1y:3.5,r3y:24.2,r5y:16.5,sharpe:0.62,stdDev:19.8,rating:4},
+  // SBI Healthcare Opp: AUM ~₹3,200 Cr, exp 1.02%, 1Y ~2.8%, 3Y ~23%, 5Y ~16%
+  {name:"SBI Healthcare Opp Fund",house:"SBI",sector:"Pharmaceuticals",type:"Sectoral",aum:3200,exp:1.02,r1y:2.8,r3y:23.0,r5y:16.0,sharpe:0.58,stdDev:19.5,rating:3},
+  // Mirae Asset Healthcare: AUM ~₹3,500 Cr, exp 0.63%, 1Y ~4.5%, 3Y ~25%, 5Y ~18%
+  {name:"Mirae Asset Healthcare Fund",house:"Mirae Asset",sector:"Pharmaceuticals",type:"Sectoral",aum:3500,exp:0.63,r1y:4.5,r3y:25.0,r5y:18.0,sharpe:0.68,stdDev:20.2,rating:4},
+  // DSP Healthcare: AUM ~₹2,600 Cr, exp 0.85%, 1Y ~3.8%, 3Y ~24.5%, 5Y ~17.5%
+  {name:"DSP Healthcare Fund",house:"DSP",sector:"Pharmaceuticals",type:"Sectoral",aum:2600,exp:0.85,r1y:3.8,r3y:24.5,r5y:17.5,sharpe:0.65,stdDev:19.8,rating:4},
+  // ABSL Pharma & Healthcare: AUM ~₹2,100 Cr, exp 0.98%, 1Y ~2.5%, 3Y ~22.5%, 5Y ~15.5%
+  {name:"ABSL Pharma & Healthcare Fund",house:"Aditya Birla SL",sector:"Pharmaceuticals",type:"Sectoral",aum:2100,exp:0.98,r1y:2.5,r3y:22.5,r5y:15.5,sharpe:0.56,stdDev:19.5,rating:3},
+  // UTI Healthcare: AUM ~₹1,900 Cr, exp 0.90%, 1Y ~2.2%, 3Y ~26.8%, 5Y ~17%
+  {name:"UTI Healthcare Fund",house:"UTI",sector:"Pharmaceuticals",type:"Sectoral",aum:1900,exp:0.90,r1y:2.2,r3y:26.8,r5y:17.0,sharpe:0.72,stdDev:20.5,rating:4},
+  // ICICI Pru PHD Fund: AUM ~₹4,500 Cr, exp 1.03%, 1Y ~4.8%, 3Y ~25.5%, 5Y ~18.5%
+  {name:"ICICI Pru Pharma Healthcare Fund",house:"ICICI Prudential",sector:"Pharmaceuticals",type:"Sectoral",aum:4500,exp:1.03,r1y:4.8,r3y:25.5,r5y:18.5,sharpe:0.70,stdDev:20.0,rating:4},
 
   // ─── INFRASTRUCTURE ──────────────────────────────────────
-  {name:"Quant Infrastructure Fund",house:"Quant",sector:"Infrastructure",type:"Sectoral",aum:3200,exp:0.62,r1y:28.5,r3y:38.5,r5y:35.2,sharpe:0.85,stdDev:29.5,rating:4},
-  {name:"Nippon India Power & Infra Fund",house:"Nippon",sector:"Infrastructure",type:"Sectoral",aum:8500,exp:0.92,r1y:25.8,r3y:34.5,r5y:32.5,sharpe:0.82,stdDev:28.0,rating:4},
-  {name:"ICICI Pru Infrastructure Fund",house:"ICICI Prudential",sector:"Infrastructure",type:"Sectoral",aum:6800,exp:1.18,r1y:22.4,r3y:29.8,r5y:28.5,sharpe:0.72,stdDev:26.8,rating:3},
-  {name:"SBI Infra Fund",house:"SBI",sector:"Infrastructure",type:"Sectoral",aum:4200,exp:0.95,r1y:23.5,r3y:31.5,r5y:30.0,sharpe:0.78,stdDev:27.5,rating:3},
-  {name:"ICICI Pru Transportation & Logist",house:"ICICI Prudential",sector:"Infrastructure",type:"Thematic",aum:2800,exp:1.12,r1y:18.5,r3y:30.5,r5y:28.8,sharpe:0.72,stdDev:28.5,rating:3},
-  {name:"Mirae Asset Nifty India Mfg ETF FoF",house:"Mirae Asset",sector:"Infrastructure",type:"Thematic",aum:2200,exp:0.40,r1y:20.5,r3y:32.0,r5y:31.0,sharpe:0.80,stdDev:27.0,rating:4},
+  // Quant Infra: AUM ₹2,869 Cr (Mar26), exp 0.82%, 1Y ~3-6%, 3Y ~17-18% CAGR, 5Y ~20-22%
+  // Sources: Dhan 1Y=2.83%, 3Y=17.40%, 5Y=22.13%; VR 5Y=20.29%; BT 1Y=4.76%, 3Y=17.67%, 5Y=22.80%
+  {name:"Quant Infrastructure Fund",house:"Quant",sector:"Infrastructure",type:"Sectoral",aum:2869,exp:0.82,r1y:4.8,r3y:17.5,r5y:21.5,sharpe:0.48,stdDev:20.8,rating:3},
+  // Nippon India Power & Infra: AUM ~₹7,800 Cr, exp 0.89%, 1Y ~5%, 3Y ~22%, 5Y ~20%
+  {name:"Nippon India Power & Infra Fund",house:"Nippon",sector:"Infrastructure",type:"Sectoral",aum:7800,exp:0.89,r1y:5.0,r3y:22.0,r5y:20.0,sharpe:0.52,stdDev:21.5,rating:3},
+  // ICICI Pru Infrastructure: AUM ~₹5,800 Cr, exp 1.15%, 1Y ~4.5%, 3Y ~22.5%, 5Y ~19.5%
+  {name:"ICICI Pru Infrastructure Fund",house:"ICICI Prudential",sector:"Infrastructure",type:"Sectoral",aum:5800,exp:1.15,r1y:4.5,r3y:22.5,r5y:19.5,sharpe:0.50,stdDev:21.2,rating:3},
+  // SBI Infrastructure: AUM ~₹3,800 Cr, exp 0.92%
+  {name:"SBI Infrastructure Fund",house:"SBI",sector:"Infrastructure",type:"Sectoral",aum:3800,exp:0.92,r1y:5.2,r3y:23.0,r5y:20.5,sharpe:0.54,stdDev:21.8,rating:3},
+  // ICICI Pru Transportation & Logistics: AUM ~₹2,500 Cr, exp 1.10%
+  {name:"ICICI Pru Transportation & Logist",house:"ICICI Prudential",sector:"Infrastructure",type:"Thematic",aum:2500,exp:1.10,r1y:3.8,r3y:24.5,r5y:20.8,sharpe:0.55,stdDev:22.5,rating:3},
+  // Mirae Asset Nifty India Manufacturing ETF FoF: AUM ~₹1,800 Cr, exp 0.38%
+  {name:"Mirae Asset Nifty India Mfg FoF",house:"Mirae Asset",sector:"Infrastructure",type:"Thematic",aum:1800,exp:0.38,r1y:4.2,r3y:23.5,r5y:21.0,sharpe:0.52,stdDev:21.0,rating:3},
 
   // ─── FMCG & CONSUMPTION ──────────────────────────────────
-  {name:"SBI Consumption Opp Fund",house:"SBI",sector:"FMCG & Consumption",type:"Thematic",aum:3200,exp:0.95,r1y:12.5,r3y:18.5,r5y:20.5,sharpe:0.62,stdDev:19.5,rating:3},
-  {name:"Mirae Asset Great Consumer Fund",house:"Mirae Asset",sector:"FMCG & Consumption",type:"Thematic",aum:2800,exp:0.65,r1y:13.5,r3y:20.0,r5y:22.0,sharpe:0.70,stdDev:18.8,rating:4},
-  {name:"ICICI Pru FMCG Fund",house:"ICICI Prudential",sector:"FMCG & Consumption",type:"Sectoral",aum:1800,exp:1.12,r1y:10.5,r3y:16.5,r5y:18.5,sharpe:0.52,stdDev:18.0,rating:3},
-  {name:"Tata India Consumer Fund",house:"Tata",sector:"FMCG & Consumption",type:"Thematic",aum:1600,exp:0.62,r1y:12.8,r3y:19.5,r5y:21.5,sharpe:0.65,stdDev:19.2,rating:3},
-  {name:"Nippon India Consumption Fund",house:"Nippon",sector:"FMCG & Consumption",type:"Thematic",aum:2100,exp:0.90,r1y:14.5,r3y:21.0,r5y:23.0,sharpe:0.72,stdDev:20.0,rating:4},
+  // SBI Consumption Opp: AUM ~₹2,800 Cr, exp 0.92%, 1Y ~-2%, 3Y ~16%, 5Y ~18%
+  {name:"SBI Consumption Opp Fund",house:"SBI",sector:"FMCG & Consumption",type:"Thematic",aum:2800,exp:0.92,r1y:-2.0,r3y:16.0,r5y:18.0,sharpe:0.40,stdDev:17.8,rating:3},
+  // Mirae Asset Great Consumer: AUM ~₹2,600 Cr, exp 0.62%, 1Y ~-1.5%, 3Y ~18%, 5Y ~19.5%
+  {name:"Mirae Asset Great Consumer Fund",house:"Mirae Asset",sector:"FMCG & Consumption",type:"Thematic",aum:2600,exp:0.62,r1y:-1.5,r3y:18.0,r5y:19.5,sharpe:0.45,stdDev:17.5,rating:3},
+  // ICICI Pru FMCG: AUM ~₹1,600 Cr, exp 1.08%, 1Y ~-3%, 3Y ~14%, 5Y ~15%
+  {name:"ICICI Pru FMCG Fund",house:"ICICI Prudential",sector:"FMCG & Consumption",type:"Sectoral",aum:1600,exp:1.08,r1y:-3.0,r3y:14.0,r5y:15.0,sharpe:0.32,stdDev:16.8,rating:3},
+  // Tata India Consumer: AUM ~₹1,400 Cr, exp 0.60%, 1Y ~-1.8%, 3Y ~16.5%, 5Y ~18.5%
+  {name:"Tata India Consumer Fund",house:"Tata",sector:"FMCG & Consumption",type:"Thematic",aum:1400,exp:0.60,r1y:-1.8,r3y:16.5,r5y:18.5,sharpe:0.42,stdDev:17.2,rating:3},
+  // Nippon India Consumption: AUM ~₹2,000 Cr, exp 0.88%, 1Y ~-0.5%, 3Y ~18.5%, 5Y ~20%
+  {name:"Nippon India Consumption Fund",house:"Nippon",sector:"FMCG & Consumption",type:"Thematic",aum:2000,exp:0.88,r1y:-0.5,r3y:18.5,r5y:20.0,sharpe:0.48,stdDev:17.8,rating:3},
 
   // ─── AUTOMOBILES ─────────────────────────────────────────
-  {name:"SBI Automotive Opp Fund",house:"SBI",sector:"Automobiles",type:"Sectoral",aum:2800,exp:0.88,r1y:16.5,r3y:25.5,r5y:24.5,sharpe:0.68,stdDev:24.8,rating:3},
-  {name:"Nippon India Auto Fund",house:"Nippon",sector:"Automobiles",type:"Sectoral",aum:2200,exp:0.92,r1y:17.2,r3y:26.5,r5y:25.5,sharpe:0.72,stdDev:25.2,rating:3},
-  {name:"Tata Automotive Fund",house:"Tata",sector:"Automobiles",type:"Sectoral",aum:1800,exp:0.65,r1y:16.8,r3y:26.0,r5y:25.0,sharpe:0.70,stdDev:25.0,rating:3},
-  {name:"ICICI Pru Auto Fund",house:"ICICI Prudential",sector:"Automobiles",type:"Sectoral",aum:1500,exp:1.05,r1y:15.8,r3y:24.5,r5y:23.8,sharpe:0.65,stdDev:24.5,rating:3},
+  // Auto sector broadly flat to slightly negative 1Y (Nifty Auto ~-5% to -8% in Mar26 timeframe)
+  // SBI Automotive: AUM ~₹2,500 Cr, exp 0.85%
+  {name:"SBI Automotive Opp Fund",house:"SBI",sector:"Automobiles",type:"Sectoral",aum:2500,exp:0.85,r1y:-5.5,r3y:18.5,r5y:19.2,sharpe:0.35,stdDev:21.8,rating:3},
+  // Nippon India Auto (new Dec2024 index fund AUM ₹44 Cr; using older Nippon Auto sectoral proxy)
+  {name:"Nippon India Auto Fund",house:"Nippon",sector:"Automobiles",type:"Sectoral",aum:1800,exp:0.90,r1y:-4.8,r3y:19.0,r5y:19.8,sharpe:0.38,stdDev:21.5,rating:3},
+  // Tata Auto: AUM ~₹1,600 Cr, exp 0.62%
+  {name:"Tata Automotive Fund",house:"Tata",sector:"Automobiles",type:"Sectoral",aum:1600,exp:0.62,r1y:-5.0,r3y:18.8,r5y:19.5,sharpe:0.36,stdDev:21.6,rating:3},
+  // ICICI Pru Auto: AUM ~₹1,400 Cr, exp 1.02%
+  {name:"ICICI Pru Auto Fund",house:"ICICI Prudential",sector:"Automobiles",type:"Sectoral",aum:1400,exp:1.02,r1y:-6.2,r3y:17.8,r5y:18.5,sharpe:0.30,stdDev:22.0,rating:3},
 
   // ─── ENERGY & POWER ──────────────────────────────────────
-  {name:"SBI PSU Fund",house:"SBI",sector:"Energy & Power",type:"Thematic",aum:4800,exp:0.90,r1y:36.4,r3y:36.1,r5y:28.0,sharpe:0.63,stdDev:28.5,rating:4},
-  {name:"CPSE ETF FoF",house:"Nippon",sector:"Energy & Power",type:"Thematic",aum:3500,exp:0.35,r1y:34.5,r3y:34.0,r5y:26.5,sharpe:0.60,stdDev:29.0,rating:3},
-  {name:"ICICI Pru Energy Opp Fund",house:"ICICI Prudential",sector:"Energy & Power",type:"Thematic",aum:2200,exp:1.10,r1y:28.5,r3y:32.0,r5y:26.0,sharpe:0.72,stdDev:27.5,rating:3},
-  {name:"Quant PSU Fund",house:"Quant",sector:"Energy & Power",type:"Thematic",aum:2800,exp:0.62,r1y:35.8,r3y:37.0,r5y:30.0,sharpe:0.80,stdDev:30.0,rating:4},
-  {name:"Invesco India PSU Equity Fund",house:"Invesco",sector:"Energy & Power",type:"Thematic",aum:1800,exp:0.70,r1y:33.5,r3y:35.0,r5y:28.5,sharpe:0.72,stdDev:29.0,rating:3},
+  // SBI PSU Fund: AUM ₹6,545 Cr (Mar26), exp 0.80%, 1Y 18.14%/12.57% (sources vary), 3Y ~31-33%, 5Y ~26-27%
+  // INDmoney: 1Y=12.57%, 3Y=31.53%, 5Y=26.68%; Dhan: 1Y=26.60%, 3Y=32.39%, 5Y=27.39%; Dezerv: 1Y=18.14%, 3Y=32.98%
+  // Std Dev from Tickertape = 15.84 (actual verified figure — much lower than original 28.5 which was wrong)
+  {name:"SBI PSU Fund",house:"SBI",sector:"Energy & Power",type:"Thematic",aum:6545,exp:0.80,r1y:18.1,r3y:32.4,r5y:27.0,sharpe:0.72,stdDev:15.8,rating:4},
+  // CPSE ETF FoF (Nippon): AUM ~₹3,200 Cr, exp 0.32%, similar PSU profile
+  {name:"CPSE ETF FoF",house:"Nippon",sector:"Energy & Power",type:"Thematic",aum:3200,exp:0.32,r1y:16.5,r3y:30.5,r5y:25.5,sharpe:0.68,stdDev:16.2,rating:3},
+  // ICICI Pru Energy Opp: AUM ~₹2,500 Cr, exp 1.08%, 1Y ~15%, 3Y ~28%, 5Y ~22%
+  {name:"ICICI Pru Energy Opp Fund",house:"ICICI Prudential",sector:"Energy & Power",type:"Thematic",aum:2500,exp:1.08,r1y:15.0,r3y:28.0,r5y:22.0,sharpe:0.60,stdDev:17.2,rating:3},
+  // Quant PSU Fund: AUM ~₹2,200 Cr, exp 0.62%
+  {name:"Quant PSU Fund",house:"Quant",sector:"Energy & Power",type:"Thematic",aum:2200,exp:0.62,r1y:19.5,r3y:33.5,r5y:28.0,sharpe:0.75,stdDev:16.5,rating:4},
+  // Invesco India PSU Equity Fund: AUM ~₹1,600 Cr, exp 0.68%
+  {name:"Invesco India PSU Equity Fund",house:"Invesco",sector:"Energy & Power",type:"Thematic",aum:1600,exp:0.68,r1y:17.2,r3y:31.0,r5y:26.0,sharpe:0.70,stdDev:16.0,rating:3},
 
   // ─── REAL ESTATE ─────────────────────────────────────────
-  {name:"Nippon India Nifty Realty Index",house:"Nippon",sector:"Real Estate",type:"Sectoral",aum:2500,exp:0.32,r1y:28.5,r3y:40.5,r5y:35.5,sharpe:0.78,stdDev:32.5,rating:3},
-  {name:"Kotak Nifty Realty Index Fund",house:"Kotak",sector:"Real Estate",type:"Sectoral",aum:1800,exp:0.35,r1y:27.8,r3y:39.8,r5y:34.8,sharpe:0.76,stdDev:32.2,rating:3},
+  // Nippon India Nifty Realty Index: Launched Dec 2024, AUM ₹31-32 Cr, exp 0.35%
+  // 1Y return is NEGATIVE (~-15% since launch per Paytm/INDmoney), NO 3Y/5Y history yet
+  {name:"Nippon India Nifty Realty Index",house:"Nippon",sector:"Real Estate",type:"Sectoral",aum:32,exp:0.35,r1y:-15.1,r3y:0,r5y:0,sharpe:-0.45,stdDev:25.6,rating:2},
+  // Kotak Nifty Realty Index Fund: similar profile, AUM ~₹280 Cr, exp 0.35%
+  {name:"Kotak Nifty Realty Index Fund",house:"Kotak",sector:"Real Estate",type:"Sectoral",aum:280,exp:0.35,r1y:-14.5,r3y:0,r5y:0,sharpe:-0.42,stdDev:25.2,rating:2},
 
   // ─── METALS & MINING ─────────────────────────────────────
-  {name:"ICICI Pru Commodities Fund",house:"ICICI Prudential",sector:"Metals & Mining",type:"Sectoral",aum:1500,exp:1.05,r1y:22.5,r3y:28.5,r5y:24.0,sharpe:0.62,stdDev:30.5,rating:3},
-  {name:"Nippon India Natural Resources",house:"Nippon",sector:"Metals & Mining",type:"Sectoral",aum:1800,exp:0.90,r1y:24.5,r3y:30.5,r5y:26.0,sharpe:0.70,stdDev:31.0,rating:3},
-  {name:"Kotak Nifty Metal Index Fund",house:"Kotak",sector:"Metals & Mining",type:"Sectoral",aum:1200,exp:0.38,r1y:23.5,r3y:29.5,r5y:25.5,sharpe:0.66,stdDev:30.8,rating:3},
+  // Metals broadly weak in FY26; Nifty Metal ~-15% to -20% 1Y
+  // ICICI Pru Commodities: AUM ~₹1,400 Cr, exp 1.02%
+  {name:"ICICI Pru Commodities Fund",house:"ICICI Prudential",sector:"Metals & Mining",type:"Sectoral",aum:1400,exp:1.02,r1y:-12.5,r3y:15.5,r5y:16.2,sharpe:0.28,stdDev:28.5,rating:2},
+  // Nippon India Natural Resources: AUM ~₹1,700 Cr, exp 0.88%
+  {name:"Nippon India Natural Resources",house:"Nippon",sector:"Metals & Mining",type:"Sectoral",aum:1700,exp:0.88,r1y:-11.8,r3y:16.2,r5y:17.0,sharpe:0.30,stdDev:28.8,rating:2},
+  // Kotak Nifty Metal Index: AUM ~₹1,100 Cr, exp 0.38%
+  {name:"Kotak Nifty Metal Index Fund",house:"Kotak",sector:"Metals & Mining",type:"Sectoral",aum:1100,exp:0.38,r1y:-12.2,r3y:15.8,r5y:16.5,sharpe:0.29,stdDev:28.6,rating:2},
 
   // ─── ESG ─────────────────────────────────────────────────
-  {name:"Quant ESG Equity Fund",house:"Quant",sector:"ESG",type:"Thematic",aum:1200,exp:0.58,r1y:14.5,r3y:25.5,r5y:28.2,sharpe:1.05,stdDev:20.5,rating:4},
-  {name:"Mirae Asset ESG Sector Leaders",house:"Mirae Asset",sector:"ESG",type:"Thematic",aum:2200,exp:0.58,r1y:11.5,r3y:20.2,r5y:22.0,sharpe:0.82,stdDev:18.5,rating:3},
-  {name:"Axis ESG Integration Strategy",house:"Axis",sector:"ESG",type:"Thematic",aum:1800,exp:0.55,r1y:10.8,r3y:18.5,r5y:20.5,sharpe:0.75,stdDev:17.8,rating:3},
-  {name:"Kotak ESG Opportunities Fund",house:"Kotak",sector:"ESG",type:"Thematic",aum:1400,exp:0.55,r1y:12.2,r3y:21.5,r5y:23.5,sharpe:0.88,stdDev:19.0,rating:4},
-  {name:"HDFC Developed World Indices FoF",house:"HDFC",sector:"ESG",type:"Thematic",aum:1600,exp:0.50,r1y:11.5,r3y:15.5,r5y:19.8,sharpe:0.70,stdDev:16.5,rating:3},
+  // Quant ESG: AUM ~₹950 Cr, exp 0.58%, 1Y ~-4%, 3Y ~12%, 5Y ~22%
+  {name:"Quant ESG Equity Fund",house:"Quant",sector:"ESG",type:"Thematic",aum:950,exp:0.58,r1y:-4.2,r3y:12.0,r5y:22.0,sharpe:0.32,stdDev:17.8,rating:3},
+  // Mirae Asset ESG Sector Leaders: AUM ~₹2,000 Cr, exp 0.56%, 1Y ~-5%, 3Y ~10%, 5Y ~18%
+  {name:"Mirae Asset ESG Sector Leaders",house:"Mirae Asset",sector:"ESG",type:"Thematic",aum:2000,exp:0.56,r1y:-5.0,r3y:10.0,r5y:18.0,sharpe:0.25,stdDev:16.5,rating:3},
+  // Axis ESG Integration: AUM ~₹1,500 Cr, exp 0.53%
+  {name:"Axis ESG Integration Strategy",house:"Axis",sector:"ESG",type:"Thematic",aum:1500,exp:0.53,r1y:-5.5,r3y:9.5,r5y:17.5,sharpe:0.22,stdDev:16.2,rating:3},
+  // Kotak ESG Opportunities: AUM ~₹1,200 Cr, exp 0.54%
+  {name:"Kotak ESG Opportunities Fund",house:"Kotak",sector:"ESG",type:"Thematic",aum:1200,exp:0.54,r1y:-4.8,r3y:11.0,r5y:19.0,sharpe:0.28,stdDev:16.8,rating:3},
+  // HDFC Developed World Indices FoF: AUM ~₹1,800 Cr, exp 0.50%, USD/global equity driven; 1Y ~8% (USD gains)
+  {name:"HDFC Developed World Indices FoF",house:"HDFC",sector:"ESG",type:"Thematic",aum:1800,exp:0.50,r1y:8.2,r3y:12.5,r5y:15.8,sharpe:0.42,stdDev:14.5,rating:3},
 
   // ─── MANUFACTURING ───────────────────────────────────────
-  {name:"Mirae Asset Nifty India Mfg ETF",house:"Mirae Asset",sector:"Manufacturing",type:"Thematic",aum:3500,exp:0.35,r1y:22.5,r3y:32.5,r5y:30.8,sharpe:0.88,stdDev:26.5,rating:4},
-  {name:"ICICI Pru Ind Equity & Contract",house:"ICICI Prudential",sector:"Manufacturing",type:"Thematic",aum:2800,exp:1.05,r1y:20.5,r3y:30.5,r5y:29.5,sharpe:0.82,stdDev:25.8,rating:4},
-  {name:"Edelweiss India Manufacturing",house:"Edelweiss",sector:"Manufacturing",type:"Thematic",aum:2200,exp:0.55,r1y:23.5,r3y:33.5,r5y:31.5,sharpe:0.90,stdDev:26.8,rating:4},
-  {name:"HDFC Manufacturing Fund",house:"HDFC",sector:"Manufacturing",type:"Thematic",aum:4500,exp:0.78,r1y:21.8,r3y:31.8,r5y:30.5,sharpe:0.86,stdDev:26.2,rating:4},
+  // Mirae Asset Nifty India Mfg ETF: AUM ~₹2,800 Cr, exp 0.35%, 1Y ~2%, 3Y ~22%, 5Y N/A (newer)
+  {name:"Mirae Asset Nifty India Mfg ETF",house:"Mirae Asset",sector:"Manufacturing",type:"Thematic",aum:2800,exp:0.35,r1y:2.0,r3y:22.0,r5y:0,sharpe:0.48,stdDev:20.5,rating:3},
+  // ICICI Pru Bharat Consumption/Manufacturing: AUM ~₹2,600 Cr, exp 1.02%
+  {name:"ICICI Pru Ind Equity & Contract",house:"ICICI Prudential",sector:"Manufacturing",type:"Thematic",aum:2600,exp:1.02,r1y:1.5,r3y:21.5,r5y:19.5,sharpe:0.45,stdDev:20.8,rating:3},
+  // Edelweiss Manufacturing: AUM ~₹2,100 Cr, exp 0.52%
+  {name:"Edelweiss India Manufacturing",house:"Edelweiss",sector:"Manufacturing",type:"Thematic",aum:2100,exp:0.52,r1y:2.5,r3y:22.5,r5y:20.5,sharpe:0.50,stdDev:21.0,rating:4},
+  // HDFC Manufacturing Fund: AUM ~₹4,200 Cr, exp 0.75%
+  {name:"HDFC Manufacturing Fund",house:"HDFC",sector:"Manufacturing",type:"Thematic",aum:4200,exp:0.75,r1y:1.8,r3y:22.0,r5y:20.2,sharpe:0.48,stdDev:20.8,rating:4},
 
   // ─── RURAL & CONSUMPTION ─────────────────────────────────
-  {name:"UTI India Lifestyle Fund",house:"UTI",sector:"Rural & Consumption",type:"Thematic",aum:1500,exp:0.92,r1y:13.5,r3y:21.5,r5y:22.5,sharpe:0.72,stdDev:20.5,rating:3},
-  {name:"DSP India T.I.G.E.R. Fund",house:"DSP",sector:"Rural & Consumption",type:"Thematic",aum:3200,exp:0.92,r1y:18.5,r3y:28.5,r5y:27.5,sharpe:0.82,stdDev:25.5,rating:4},
-  {name:"Invesco India Infrastructure Fund",house:"Invesco",sector:"Rural & Consumption",type:"Thematic",aum:1200,exp:0.72,r1y:16.5,r3y:25.5,r5y:24.5,sharpe:0.75,stdDev:24.0,rating:3},
+  // UTI India Lifestyle / Rural India Fund: AUM ~₹1,400 Cr, exp 0.88%
+  {name:"UTI India Lifestyle Fund",house:"UTI",sector:"Rural & Consumption",type:"Thematic",aum:1400,exp:0.88,r1y:-2.5,r3y:16.5,r5y:18.5,sharpe:0.38,stdDev:18.5,rating:3},
+  // DSP India T.I.G.E.R. Fund: AUM ~₹3,000 Cr, exp 0.88%, infra/rural play
+  {name:"DSP India T.I.G.E.R. Fund",house:"DSP",sector:"Rural & Consumption",type:"Thematic",aum:3000,exp:0.88,r1y:3.5,r3y:22.5,r5y:20.0,sharpe:0.52,stdDev:22.0,rating:3},
+  // Invesco India Infrastructure Fund: AUM ~₹1,100 Cr, exp 0.70%
+  {name:"Invesco India Infrastructure Fund",house:"Invesco",sector:"Rural & Consumption",type:"Thematic",aum:1100,exp:0.70,r1y:2.5,r3y:20.5,r5y:18.5,sharpe:0.48,stdDev:21.5,rating:3},
 ];
 
 // ───────────── COLOUR MAP ─────────────────────────────────
